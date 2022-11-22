@@ -19,64 +19,79 @@
 
 
   <header>
-    <h2>Drawflow</h2>
+    <h2>Idiot-AD</h2>
     <div class="github-link"><a href="https://github.com/jerosoler/Drawflow" target="_blank"><i class="fab fa-github fa-3x"></i></a></div>
     <div class="them-edit-link"><a href="https://jerosoler.github.io/drawflow-theme-generator/" target="_blank">🎨</a></div>
   </header>
   <div class="wrapper">
 
     <div class="col">
-	<div class="menu">
-	  <ul>
-	    <li>流程模板</li>
-	    <li class="selected">功能节点</li>
-	    <li>算法组件</li>
-	  </ul>
-	</div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
-        <i class="fab fa-facebook"></i><span> 车辆数据</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="毫米波雷达数据">
-        <i class="fab fa-slack"></i><span> 毫米波雷达数据</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="图像感知数据">
-        <i class="fab fa-github"></i><span> 图像感知数据</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="毫米波雷达后处理">
-        <i class="fab fa-telegram"></i><span> 毫米波雷达后处理</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="图像感知后处理">
-        <i class="fab fa-aws"></i><span> 图像感知后处理</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆运动">
-        <i class="fas fa-file-signature"></i><span> 车辆运动</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="物体融合">
-        <i class="fab fa-google-drive"></i><span> 物体融合</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="定位前导车">
-        <i class="fas fa-at"></i><span> 定位前导车</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="路径规划">
-        <i class="fas fa-code"></i><span> 路径规划</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="决策控制">
-        <i class="fas fa-code-branch"></i><span> 决策控制</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="状态机">
-        <i class="fas fa-fill"></i><span> 状态机</span>
-      </div>
-      <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="dbclick">
-        <i class="fas fa-mouse"></i><span> DBClick!</span>
-      </div>
-
+		<div>
+			<span style="width: 200px;"><button id="bt0" type="button" style="font-size: 18px; background-color: white; border: none;"  onclick="showDiv('div0')">流程模板</button></span>
+			<span style="width: 200px;"><button id="bt1" type="button" style="font-size: 18px;"  onclick="showDiv('div1')">功能节点</button></span>
+			<span style="width: 200px;"><button id="bt2" type="button" style="font-size: 18px;"  onclick="showDiv('div2')">算法组件</button></span>
+		</div>
+		
+		<div id="div0">
+		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
+			<i class="fab fa-facebook"></i><span> ACC</span>
+		  </div>
+		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
+			<i class="fab fa-facebook"></i><span> GHP</span>
+		  </div> 
+		</div>
+		
+		<div id="div1" style="display: none;">
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
+			<i class="fab fa-facebook"></i><span> 车辆数据</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="毫米波雷达数据">
+			<i class="fab fa-slack"></i><span> 毫米波雷达数据</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="图像感知数据">
+			<i class="fab fa-github"></i><span> 图像感知数据</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="毫米波雷达后处理">
+			<i class="fab fa-telegram"></i><span> 毫米波雷达后处理</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="图像感知后处理">
+			<i class="fab fa-aws"></i><span> 图像感知后处理</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆运动">
+			<i class="fas fa-file-signature"></i><span> 车辆运动</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="物体融合">
+			<i class="fab fa-google-drive"></i><span> 物体融合</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="定位前导车">
+			<i class="fas fa-at"></i><span> 定位前导车</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="路径规划">
+			<i class="fas fa-code"></i><span> 路径规划</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="决策控制">
+			<i class="fas fa-code-branch"></i><span> 决策控制</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="状态机">
+			<i class="fas fa-fill"></i><span> 状态机</span>
+		  </div>
+		  <div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="dbclick">
+			<i class="fas fa-mouse"></i><span> DBClick!</span>
+		  </div>
+		</div>
+		
+		<div id="div2" style="display: none;">
+		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
+			<i class="fab fa-facebook"></i><span> PID算法</span>
+		  </div>
+		</div>
 
     </div>
     <div class="col-right">
       <div class="menu">
         <ul>
           <li onclick="editor.changeModule('Home'); changeModule(event);" class="selected">Home</li>
-          <li onclick="editor.changeModule('Other'); changeModule(event);">Other Module</li>
+          <!--<li onclick="editor.changeModule('Other'); changeModule(event);">Other Module</li>-->
         </ul>
       </div>
       <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -558,6 +573,53 @@
       }
 
     }
+	
+	function showDiv(str) {
+		//divs = document.getElementById("div0");
+		
+		//divs.style.display = "none";
+		if(str == 'div0'){
+			document.getElementById('div1').style.display = "none";
+			document.getElementById('div2').style.display = "none";
+			document.getElementById('bt1').style.border = "1px solid";
+			document.getElementById('bt2').style.border = "1px solid";
+			document.getElementById('bt1').style.backgroundColor = "whitesmoke";
+			document.getElementById('bt2').style.backgroundColor = "whitesmoke";
+			document.getElementById('bt1').style.borderRadius = "2px";
+			document.getElementById('bt2').style.borderRadius = "2px";
+			
+			document.getElementById('div0').style.display = "block";
+			document.getElementById('bt0').style.backgroundColor = "white";
+			document.getElementById('bt0').style.border = "none";
+		}else if(str == 'div1'){
+			document.getElementById('div0').style.display = "none";
+			document.getElementById('div2').style.display = "none";
+			document.getElementById('bt0').style.border = "1px solid";
+			document.getElementById('bt2').style.border = "1px solid";
+			document.getElementById('bt0').style.backgroundColor = "whitesmoke";
+			document.getElementById('bt2').style.backgroundColor = "whitesmoke";
+			document.getElementById('bt0').style.borderRadius = "2px";
+			document.getElementById('bt2').style.borderRadius = "2px";
+			
+			document.getElementById('div1').style.display = "block";
+			document.getElementById('bt1').style.backgroundColor = "white";
+			document.getElementById('bt1').style.border = "none";
+		}else{
+			document.getElementById('div0').style.display = "none";
+			document.getElementById('div1').style.display = "none";
+			document.getElementById('bt0').style.border = "1px solid";
+			document.getElementById('bt1').style.border = "1px solid";
+			document.getElementById('bt0').style.backgroundColor = "whitesmoke";
+			document.getElementById('bt1').style.backgroundColor = "whitesmoke";
+			document.getElementById('bt0').style.borderRadius = "2px";
+			document.getElementById('bt1').style.borderRadius = "2px";
+			
+			document.getElementById('div2').style.display = "block";
+			document.getElementById('bt2').style.backgroundColor = "white";
+			document.getElementById('bt2').style.border = "none";
+		}
+		               
+}
 
   </script>
 </body>
