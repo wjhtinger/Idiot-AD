@@ -33,10 +33,10 @@
 		</div>
 		
 		<div id="div0">
-		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
+		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="ACC">
 			<i class="fab fa-facebook"></i><span> ACC</span>
 		  </div>
-		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="车辆数据">
+		<div class="drag-drawflow" draggable="true" ondragstart="drag(event)" data-node="GHP">
 			<i class="fab fa-facebook"></i><span> GHP</span>
 		  </div> 
 		</div>
@@ -97,9 +97,10 @@
       <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)">
 
         <div class="btn-export" onclick="Swal.fire({ title: 'Export',
-        html: '<pre><code>'+JSON.stringify(editor.export(), null,4)+'</code></pre>'
+        html: JSON.stringify(editor.export(), null,4)+'</code></pre>'
         })">导出</div>
-        <div class="btn-clear" onclick="editor.clearModuleSelected()">清除</div>
+		<div class="btn-clear" onclick="localStorage.setItem('ACC', JSON.stringify(editor.export()))">保存</div>
+        <!--<div class="btn-clear" onclick="editor.clearModuleSelected()">清除</div>-->
         <div class="btn-lock">
           <i id="lock" class="fas fa-lock" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
           <i id="unlock" class="fas fa-lock-open" onclick="editor.editor_mode='edit'; changeMode('unlock');" style="display:none;"></i>
@@ -262,6 +263,13 @@
       if(editor.editor_mode === 'fixed') {
         return false;
       }
+	  
+	  if(name == 'ACC'){
+		editor.import(JSON.parse(localStorage.getItem("ACC")));
+		return;
+	  }
+	  
+	  	  
       pos_x = pos_x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)) - (editor.precanvas.getBoundingClientRect().x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)));
       pos_y = pos_y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)) - (editor.precanvas.getBoundingClientRect().y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)));
 
@@ -604,6 +612,7 @@
 			document.getElementById('div1').style.display = "block";
 			document.getElementById('bt1').style.backgroundColor = "white";
 			document.getElementById('bt1').style.border = "none";
+			
 		}else{
 			document.getElementById('div0').style.display = "none";
 			document.getElementById('div1').style.display = "none";
@@ -617,8 +626,10 @@
 			document.getElementById('div2').style.display = "block";
 			document.getElementById('bt2').style.backgroundColor = "white";
 			document.getElementById('bt2').style.border = "none";
+			//console.log(localStorage.getItem("ACC"));
+
 		}
-		               
+		             
 }
 
   </script>
