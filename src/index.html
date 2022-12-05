@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Idiot-AD | Make AD development easy</title>
+  <title>Idiot-AD | Make AD development more easy</title>
   <meta name="description" content="Simple library for flow programming. Drawflow allows you to create data flows easily and quickly.">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
 
   <header>
-    <h2>Idiot-AD</h2>
+    <h2><i class="fas fa-th-list" style="color:#3366CC"></i>  Idiot-AD <span style="font-size: 16; color: #666666; float:right; margin-right: 50px;">支持</span></h2>
     <!--<div class="github-link"><a href="https://github.com/jerosoler/Drawflow" target="_blank"><i class="fab fa-github fa-3x"></i></a></div>
     <div class="them-edit-link"><a href="https://jerosoler.github.io/drawflow-theme-generator/" target="_blank">🎨</a></div>-->
   </header>
@@ -145,9 +145,10 @@
         html: JSON.stringify(editor.export(), null,4)+'</code></pre>'
         })">导出</div>
 				<div class="btn-clear" onclick="localStorage.setItem('ACC', JSON.stringify(editor.export()))">保存</div>
-				<div class="btn-clear" style="right:160px" onclick="output_animation(event);">运行</div>
+				<div class="btn-clear" style="right:160px" onclick="runAnimation(event);">运行</div>
 				<!--<div class="btn-clear" onclick="console.error(JSON.stringify(editor.export()))">打印</div>-->
 	      <!--<div class="btn-clear" onclick="editor.clearModuleSelected()">清除</div>-->
+
 	      <div class="btn-lock">
 	        <i id="lock" class="fas fa-lock" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
 	        <i id="unlock" class="fas fa-lock-open" onclick="editor.editor_mode='edit'; changeMode('unlock');" style="display:none;"></i>
@@ -157,9 +158,13 @@
 	        <i class="fas fa-search" onclick="editor.zoom_reset()"></i>
 	        <i class="fas fa-search-plus" onclick="editor.zoom_in()"></i>
 	      </div>
+	      <div class="btn-lock" style="right: 200px;">
+	      	<i id="msgshow" class="fas fa-list-alt" onclick="showMsg('show');"></i>
+	      	<i id="msghide" class="fas fa-list-ul" onclick="showMsg('hide');" style="display:none;"></i>
+	      <div>
       </div>
       <div id="drawflow2" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>
-      <div id="drawflow3" style="padding-top:40px; width:1000px; height:100%;"><iframe src="edit.html" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe></div>      		
+      <div id="drawflow3" style="padding-top:40px; width:1000px; height:100%; display:none;"><iframe src="edit.html" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe></div>      		
     </div>
   </div>
   
@@ -198,54 +203,7 @@
 
     // Events!
     editor.on('nodeCreated', function(id) {
-      console.log("Node created " + id);
-	  var node = editor.getNodeFromId(id);
-	  console.log("Node data: " + node.data.id0);
-	  
-	  switch (node.data.flow) {
-	    case '采集流程':
-		  document.getElementById(node.data.id0).style.backgroundColor = '#87CEFA';
-	    break;
-		case '融合流程':
-		  document.getElementById(node.data.id0).style.backgroundColor = '#98FB98';
-		  document.getElementById(node.data.id1).options.selectedIndex = 1;
-	    break;
-		case '规划流程':
-		  document.getElementById(node.data.id0).style.backgroundColor = '#F0E68C';
-		  document.getElementById(node.data.id1).options.selectedIndex = 2;
-	    break;
-		case '控制流程':
-		  document.getElementById(node.data.id0).style.backgroundColor = '#FFB6C1';
-		  document.getElementById(node.data.id1).options.selectedIndex = 3;
-	    break;
-		case '基础流程':
-		  document.getElementById(node.data.id0).style.backgroundColor = '#FFB6C1';
-		  document.getElementById(node.data.id1).options.selectedIndex = 4;
-	    break;
-	  }
-	  
-	  switch (node.data.trigger) {
-	    case '最新触发':
-		  document.getElementById(node.data.id2).options.selectedIndex = 0;
-	    break;
-		case '批次触发':
-		  document.getElementById(node.data.id2).options.selectedIndex = 1;
-	    break;
-		case '定时触发':
-		  document.getElementById(node.data.id2).options.selectedIndex = 2;
-		  document.getElementById(node.data.id4).value ='90';
-	    break;
-	  }
-
-	  switch (node.data.develop) {
-	  case '代码':
-		  document.getElementById(node.data.id3).setAttribute("class", "far fa-file-alt")
-	    break;
-		case '图形':
-			document.getElementById(node.data.id3).setAttribute("class", "fas fa-cubes")
-	    break;
-	  }	  
-	  
+    	console.log("Node created " + id);
     })
 
     editor.on('nodeRemoved', function(id) {
@@ -314,6 +272,16 @@
 	  	onContextMenu(event);
     })	
 
+    editor.on('click', function(event) {
+      if(event.target.classList.contains("input")){
+      	if(event.target.style.borderColor === "rgb(255, 102, 0)"){
+      		event.target.style.borderColor = "#cacaca";
+      	}else{
+      		event.target.style.borderColor = "#FF6600";
+      	}      	
+      }      
+    })
+
 
 
     /* DRAG EVENT */
@@ -369,18 +337,19 @@
     }
 	
 	
-	var data0 = {"node_name":"车辆数据","flow":"采集流程","trigger":"最新触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data1 = {"node_name":"毫米波雷达数据","flow":"采集流程","trigger":"最新触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data2 = {"node_name":"图像感知数据","flow":"采集流程","trigger":"最新触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data3 = {"node_name":"毫米波雷达后处理","flow":"采集流程","trigger":"最新触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data4 = {"node_name":"图像感知后处理","flow":"采集流程","trigger":"最新触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data5 = {"node_name":"车辆运动","flow":"融合流程","trigger":"批次触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data6 = {"node_name":"物体融合","flow":"融合流程","trigger":"批次触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data7 = {"node_name":"定位前导车","flow":"融合流程","trigger":"批次触发","develop":"图形","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data8 = {"node_name":"路径规划","flow":"规划流程","trigger":"定时触发","develop":"图形","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data9 = {"node_name":"决策控制","flow":"控制流程","trigger":"定时触发","develop":"图形","id0":"","id1":"","id2":"","id3":"","id4":""};
-	var data10= {"node_name":"状态机","flow":"控制流程","trigger":"最新触发","develop":"代码","id0":"","id1":"","id2":"","id3":"","id4":""};
 	
+	var node_data0 = {"node_name":"车辆数据","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":[],"out":["/ICVOS/EX/Vehicle/Report"]};
+	var node_data1 = {"node_name":"毫米波雷达数据","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":[],"out":["/ICVOS/CV/Sensor/RadarRaw/Front"]};
+	var node_data2 = {"node_name":"图像感知数据","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":[],"out":["/ICVOS/PC/Fusion/Road","/CV/Calibration","/ICVOS/FreeSpace","/ICVOS/CV/Detection/ObjectCnnOutput","/ICVOS/TsrMsg"]};
+	var node_data3 = {"node_name":"毫米波雷达后处理","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/ICVOS/CV/Sensor/RadarRaw","/ICVOS/EX/Vehicle/Report"],"out":["/ICVOS/CV/Sensor/RadarProcessed"],"sot":[1,0]};
+	var node_data4 = {"node_name":"图像感知后处理","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/CV/Calibration","/ICVOS/CV/Detection/ObjectCnnOutput"],"out":["/ICVOS/CV/Detection/ObjectTrack"],"sot":[0,1]};
+	var node_data5 = {"node_name":"车辆运动","flow":"融合流程","prioffset":0,"trigger":"批次触发","interval":0,"develop":"代码","in":["/ICVOS/EX/Vehicle/Report"],"out":["/ICVOS/Location/Odometry"],"sot":[1]};
+	var node_data6 = {"node_name":"物体融合","flow":"融合流程","prioffset":0,"trigger":"批次触发","interval":0,"develop":"代码","in":["/ICVOS/CV/Sensor/RadarProcessed","/ICVOS/CV/Detection/ObjectTrack"],"out":["/ICVOS/PC/Fusion/Objecttracks"],"sot":[1,1]};
+	var node_data7 = {"node_name":"定位前导车","flow":"融合流程","prioffset":0,"trigger":"批次触发","interval":0,"develop":"图形","in":["/ICVOS/PC/Fusion/Objecttracks","/ICVOS/PC/Fusion/Road"],"out":["/ICVOS/FN/Plan/LeadVehicle"],"sot":[1,0]};
+	var node_data8 = {"node_name":"路径规划","flow":"规划流程","prioffset":0,"trigger":"定时触发","interval":50,"develop":"图形","in":["/ICVOS/Sys/Ctrl/HmiAcc","/ICVOS/PC/Fusion/Road","/ICVOS/PC/Fusion/Objecttracks","/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report","/ICVOS/Location/Odometry"],"out":["/ICVOS/Plan/Trajectory"],"sot":[0,0,0,0,0,0]};
+	var node_data9 = {"node_name":"决策控制","flow":"控制流程","prioffset":0,"trigger":"定时触发","interval":90,"develop":"图形","in":["/ICVOS/Sys/Ctrl/HmiAcc","/ICVOS/Plan/Trajectory","/ICVOS/Location/Odometry","/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report"],"out":["/ICVOS/Sys/Ctrl/Command"],"sot":[0,0,0,0,0]};
+	var node_data10= {"node_name":"状态机","flow":"控制流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report","/ICVOS/PC/Fusion/Road","/ICVOS/Sys/Ctrl/Command"],"out":["/ICVOS/Sys/Ctrl/HmiAcc","/ICVOS/Sys/Ctrl/HmiDisplay"],"sot":[1,1,1,1]};
+
 	
 	function addNodeToDrawFlowOne(name, pos_x, pos_y) {
       if(editor.editor_mode === 'fixed') {
@@ -388,144 +357,163 @@
       }
 	  
 	  if(name == 'ACC'){
-		editor.import(JSON.parse(localStorage.getItem("ACC")));
-		return;
+			editor.import(JSON.parse(localStorage.getItem("ACC")));
+			return;
 	  }
 	  
 	  	  
-      pos_x = pos_x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)) - (editor.precanvas.getBoundingClientRect().x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)));
-      pos_y = pos_y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)) - (editor.precanvas.getBoundingClientRect().y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)));
+    pos_x = pos_x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)) - (editor.precanvas.getBoundingClientRect().x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)));
+    pos_y = pos_y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)) - (editor.precanvas.getBoundingClientRect().y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)));
 
-    var id0 = "title-box-"+name.toString() + pos_x.toString();
-    var id1 = "pri-select-"+name.toString() + pos_x.toString();
-    var id2 = "triger-select-"+name.toString() + pos_x.toString();
-    var id3 = "develop-i-"+name.toString() + pos_x.toString();
-    var id4 = "timer-input-"+name.toString() + pos_x.toString();
+    var id0 = "title-box-";
+    var id1 = "pri-select-";
+    var id2 = "triger-select-";
+    var id3 = "prioffset-input-";
+    var id4 = "timer-input-";
+    var id5 = "develop-i-";
+                     
+    var node_data;
+		switch (name) {
+			case '车辆数据':	
+				node_data = node_data0;
+		  break;
+			case '毫米波雷达数据':
+				node_data = node_data1;
+		  break;
+			case '图像感知数据':
+				node_data = node_data2;
+		  break;
+		  case '毫米波雷达后处理':
+		  	node_data = node_data3;
+		  break;
+		  case '图像感知后处理':
+		  	node_data = node_data4;
+		  break;
+		  case '车辆运动':
+		  	node_data = node_data5;
+		  break;
+		  case '物体融合':
+		  	node_data = node_data6;
+		  break;
+		  case '定位前导车':
+		  	node_data = node_data7;
+		  break;
+		  case '路径规划':
+		  	node_data = node_data8;
+		  break;
+		  case '决策控制':
+		  	node_data = node_data9;
+		  break;
+		  case '状态机':
+		  	node_data = node_data10;
+		  break;
+		}
+
+		var title_color;
+		var select = [];
+	  switch (node_data.flow) {
+	    case '采集流程':
+	    	title_color = '#87CEFA';
+	    	select[0] = "selected";
+    	break;
+			case '融合流程':
+				title_color = '#98FB98';
+				select[1] = "selected";
+	    break;
+			case '规划流程':
+				title_color = '#F0E68C';
+				select[2] = "selected";
+	    break;
+			case '控制流程':
+				title_color = '#FFB6C1';
+				select[3] = "selected";
+	    break;
+			case '基础流程':
+				title_color = '#FFB6C1';
+				select[4] = "selected";
+	    break;
+	  }          
+
+	  var select2 = [];
+	  switch (node_data.trigger) {
+	    case '最新触发':
+	    	select2[0] = "selected";
+    	break;
+	    case '最新触发':
+	    	select2[1] = "selected";
+    	break;
+	    case '最新触发':
+	    	select2[2] = "selected";
+    	break;
+    }
+
+    var svg;
+	  switch (node_data.develop) {
+	    case '代码':
+	    	svg = "far fa-file-alt";
+    	break;
+	    case '图形':
+	    	svg = "fas fa-cubes";
+    	break;
+    }
+
+    var node_name = node_data.node_name + (new Date().getTime());
+    
 	  var node = `
-        <div>
-          <div id="`+id0+`" class="title-box"><i class="fas fa-cube"></i> ` + name.toString() + `<span style="float:right; vertical-align:middle; padding:0 8px 0 0;"><button type="button" style="font-size: 18px;" onclick="develop('`+id3+`')"><i id="`+id3+`" class="far fa-file"></i></button></span></div>
+      <div>
+        <div id="`+id0+`" style="background:`+ title_color.toString() +`;" class="title-box"><i class="fas fa-cube"></i> ` + node_data.node_name + `<span style="float:right; vertical-align:middle; padding:0 8px 0 0;"><button type="button" style="font-size: 18px;" onclick="develop('`+id5+`')"><i id="`+id5+`" class="`+svg.toString()+`"></i></button></span></div>
 		    <div class="box">	
-			  流程:
-              <select id="`+id1+`" df-channel onchange="processChange(`+id0+`)" style="width:80px; font-size: 12px;">				
-                <option value="channel_1">采集流程</option>
-                <option value="channel_2">融合流程</option>
-                <option value="channel_2">规划流程</option>
-                <option value="channel_3">控制流程</option>
-                <option value="channel_4">基础流程</option>
-              </select><input type="text" value="0" df-name style="width:20px;height:26px;margin-left:5px;">	
-			  <br>
-			  触发:
-			  <select id="`+id2+`" df-channel style="width:80px; font-size: 12px;">				
-                <option value="channel_1">最新触发</option>
-                <option value="channel_2">批次触发</option>
-                <option value="channel_2">定时触发</option>
-              </select><input id="`+id4+`" type="text" value="0" df-name style="width:20px;height:26px;margin-left:5px;">              
-
-            </div>
+		  流程:
+          <select id="`+id1+`" df-channel onchange="flowChange('`+node_name+`')" style="width:75px; font-size: 12px;">				
+            <option value=0 `+select[0]+`>采集流程</option>
+            <option value=1 `+select[1]+`>融合流程</option>
+            <option value=2 `+select[2]+`>规划流程</option>
+            <option value=3 `+select[3]+`>控制流程</option>
+            <option value=4 `+select[4]+`>基础流程</option>
+          </select><input id="`+id3+`" type="number" appearance="textfield" step="1" min="-5" max="4" value=0 df-name style="width:30px;height:26px;margin-left:5px;">	
+		  <br>
+		  触发:
+				  <select id="`+id2+`" df-channel style="width:75px; font-size: 12px;">				
+              <option value="channel_1" `+select[0]+`>最新触发</option>
+              <option value="channel_2" `+select[1]+`>批次触发</option>
+              <option value="channel_2" `+select[2]+`>定时触发</option>
+          </select><input id="`+id4+`" type="text" value=`+node_data.interval+` df-name style="width:30px;height:26px;margin-left:5px;">              
         </div>
-        `;
-                  
-        switch (name) {
-        case '车辆数据':	
-			data0.id0 = id0;
-			data0.id1 = id1;
-			data0.id2 = id2;
-			data0.id3 = id3;
-			data0.id4 = id4;
-            editor.addNode('ActrReort', 0,  1, pos_x, pos_y, 'facebook', data0, node );
-          break;
+      </div>`;
 
-        case '毫米波雷达数据':
-			data1.id0 = id0;
-			data1.id1 = id1;
-			data1.id2 = id2;
-			data1.id3 = id3;
-			data1.id4 = id4;
-            editor.addNode('ActrReort', 0,  1, pos_x, pos_y, 'facebook', data1, node );
-          break;
-        case '图像感知数据':
-			data2.id0 = id0;
-			data2.id1 = id1;
-			data2.id2 = id2;
-			data2.id3 = id3;
-			data2.id4 = id4;
-            editor.addNode('ActrReort', 0,  5, pos_x, pos_y, 'facebook', data2, node );
-          break;
-          case '毫米波雷达后处理':
-			data3.id0 = id0;
-			data3.id1 = id1;
-			data3.id2 = id2;
-			data3.id3 = id3;
-			data3.id4 = id4;
-            editor.addNode('ActrReort', 2,  1, pos_x, pos_y, 'facebook', data3, node );
-          break;
-          case '图像感知后处理':
-			data4.id0 = id0;
-			data4.id1 = id1;
-			data4.id2 = id2;
-			data4.id3 = id3;
-			data4.id4 = id4;
-            editor.addNode('ActrReort', 2,  1, pos_x, pos_y, 'facebook', data4, node );
-          break;
-          case '车辆运动':
-			data5.id0 = id0;
-			data5.id1 = id1;
-			data5.id2 = id2;
-			data5.id3 = id3;
-			data5.id4 = id4;
-            editor.addNode('ActrReort', 1,  1, pos_x, pos_y, 'facebook', data5, node );
-          break;
-          case '物体融合':
-		  	data6.id0 = id0;
-			data6.id1 = id1;
-			data6.id2 = id2;
-			data6.id3 = id3;
-			data6.id4 = id4;
-            editor.addNode('ActrReort', 2,  1, pos_x, pos_y, 'facebook', data6, node );
-          break;
-          case '定位前导车':
-		  	data7.id0 = id0;
-			data7.id1 = id1;
-			data7.id2 = id2;
-			data7.id3 = id3;
-			data7.id4 = id4;
-            editor.addNode('ActrReort', 2,  1, pos_x, pos_y, 'facebook', data7, node );
-          break;
-          case '路径规划':
-		  	data8.id0 = id0;
-			data8.id1 = id1;
-			data8.id2 = id2;
-			data8.id3 = id3;
-			data8.id4 = id4;
-            editor.addNode('ActrReort', 6,  1, pos_x, pos_y, 'facebook', data8, node );
-          break;
-          case '决策控制':
-		  	data9.id0 = id0;
-			data9.id1 = id1;
-			data9.id2 = id2;
-			data9.id3 = id3;
-			data9.id4 = id4;
-            editor.addNode('ActrReort', 5,  3, pos_x, pos_y, 'facebook', data9, node );
-          break;
-          case '状态机':
-		  	data10.id0 = id0;
-			data10.id1 = id1;
-			data10.id2 = id2;
-			data10.id3 = id3;
-			data10.id4 = id4;
-            editor.addNode('ActrReort', 4,  2, pos_x, pos_y, 'facebook', data10, node );
-          break;
-
-        }          
+    node_id = editor.addNode(node_name, getJsonLength(node_data.in), getJsonLength(node_data.out), pos_x, pos_y, '', node_data, node );
+    drawtrigger(node_id);
 	}
+
+
+	function getJsonLength(jsonData){
+    var jsonLength = 0;
+    for(var item in jsonData){
+       jsonLength++;
+    }
+    return jsonLength;
+	} 
+
+
+	function drawtrigger(id){
+  	infoNode   = editor.getNodeFromId(id);
+  	numInputs = Object.keys(infoNode.inputs).length;
+  	parent_in = editor.container.querySelector('#node-'+id+' .inputs');
+
+  	for (let j = 0; j < numInputs; j++){
+  		if(infoNode.data.sot[j] == 1){
+  			input = parent_in.children[j];
+  			input.style.borderColor = "#FF6600";
+  		}
+  	}
+	}   
 
 
 
 	function addNodeToDrawFlowOne_m(name, pos_x, pos_y) {
 	  if(editor.editor_mode === 'fixed') {
       return false;
-    }  
-  
+    }    
 	  	  
     pos_x = pos_x * ( editor2.precanvas.clientWidth / (editor2.precanvas.clientWidth * editor2.zoom)) - (editor2.precanvas.getBoundingClientRect().x * ( editor2.precanvas.clientWidth / (editor2.precanvas.clientWidth * editor2.zoom)));
     pos_y = pos_y * ( editor2.precanvas.clientHeight / (editor2.precanvas.clientHeight * editor2.zoom)) - (editor2.precanvas.getBoundingClientRect().y * ( editor2.precanvas.clientHeight / (editor2.precanvas.clientHeight * editor2.zoom)));
@@ -578,192 +566,7 @@
     }
 
 	}
-
-
-
-    function gradeChange(val){
-
-      //document.getElementById(val).style.backgroundColor='#FFFFFF';
-      val.style.backgroundColor='#FFFFFF';
-    }
 	
-
-    function addNodeToDrawFlow(name, pos_x, pos_y) {
-      if(editor.editor_mode === 'fixed') {
-        return false;
-      }
-      pos_x = pos_x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)) - (editor.precanvas.getBoundingClientRect().x * ( editor.precanvas.clientWidth / (editor.precanvas.clientWidth * editor.zoom)));
-      pos_y = pos_y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)) - (editor.precanvas.getBoundingClientRect().y * ( editor.precanvas.clientHeight / (editor.precanvas.clientHeight * editor.zoom)));
-
-
-      switch (name) {
-        case 'facebook':
-        var facebook = `
-        <div>
-          <div class="title-box"><i class="fab fa-facebook"></i> 车辆数据</div>
-        </div>
-        `;
-          editor.addNode('ActrReort', 0,  1, pos_x, pos_y, 'facebook', {}, facebook );
-          break;
-        case 'slack':
-          var slackchat = `
-          <div>
-            <div class="title-box"><i class="fab fa-slack"></i> 毫米波雷达数据</div>
-          </div>
-          `;
-          editor.addNode('slack', 0, 1, pos_x, pos_y, 'slack', {}, slackchat );
-          break;
-        case 'github':
-          var githubtemplate = `
-          <div>
-            <div class="title-box"><i class="fab fa-github "></i> 图像感知数据</div>
-            <div class="box">
-              <p>优先级</p>
-            <input type="text" df-name>
-            </div>
-          </div>
-          `;
-          editor.addNode('github', 0, 4, pos_x, pos_y, 'github', { "name": ''}, githubtemplate );
-          break;
-        case 'telegram':
-          var telegrambot = `
-          <div>
-            <div class="title-box"><i class="fab fa-telegram-plane"></i> 毫米波雷达后处理</div>
-            <div class="box">
-              <p>流程</p>
-              <select df-channel>
-                <option value="channel_1">Channel 1</option>
-                <option value="channel_2">Channel 2</option>
-                <option value="channel_2">Channel 3</option>
-                <option value="channel_3">Channel 4</option>
-              </select>
-            </div>
-          </div>
-          `;
-          editor.addNode('telegram', 2, 1, pos_x, pos_y, 'telegram', { "channel": 'channel_3'}, telegrambot );
-          break;
-        case 'aws':
-          var aws = `
-          <div>
-            <div class="title-box"><i class="fab fa-aws"></i> 图像感知后处理</div>
-            <div class="box">
-              <p>Save in aws</p>
-              <input type="text" df-db-dbname placeholder="DB name"><br><br>
-              <input type="text" df-db-key placeholder="DB key">
-              <p>Output Log</p>
-            </div>
-          </div>
-          `;
-          editor.addNode('aws', 2, 1, pos_x, pos_y, 'aws', { "db": { "dbname": '', "key": '' }}, aws );
-          break;
-        case 'log':
-            var log = `
-            <div>
-              <div class="title-box"><i class="fas fa-file-signature"></i> 车辆运动 </div>
-            </div>
-            `;
-            editor.addNode('log', 1, 1, pos_x, pos_y, 'log', {}, log );
-            break;
-          case 'google':
-            var google = `
-            <div>
-              <div class="title-box"><i class="fab fa-google-drive"></i> 物体融合</div>
-            </div>
-            `;
-            editor.addNode('google', 2, 1, pos_x, pos_y, 'google', {}, google );
-            break;
-          case 'email':
-            var email = `
-            <div>
-              <div class="title-box"><i class="fas fa-at"></i> 定位前导车 </div>
-            </div>
-            `;
-            editor.addNode('email', 2, 1, pos_x, pos_y, 'email', {}, email );
-            break;
-
-          case 'template':
-            var template = `
-            <div>
-              <div class="title-box"><i class="fas fa-code"></i> 路径规划</div>
-              <div class="box">
-                Ger Vars
-                <textarea df-template></textarea>
-                Output template with vars
-              </div>
-            </div>
-            `;
-            editor.addNode('template', 6, 1, pos_x, pos_y, 'template', { "template": 'Write your template'}, template );
-            break;
-          case 'multiple':
-            var multiple = `
-            <div>
-              <div class="box">
-                Multiple!
-              </div>
-            </div>
-            `;
-            editor.addNode('multiple', 3, 4, pos_x, pos_y, 'multiple', {}, multiple );
-            break;
-          case 'personalized':
-            var personalized = `
-            <div>
-              Personalized
-            </div>
-            `;
-            editor.addNode('personalized', 1, 1, pos_x, pos_y, 'personalized', {}, personalized );
-            break;
-          case 'dbclick':
-            var dbclick = `
-            <div>
-            <div class="title-box"><i class="fas fa-mouse"></i> Db Click</div>
-              <div class="box dbclickbox" ondblclick="showpopup(event)">
-                Db Click here
-                <div class="modal" style="display:none">
-                  <div class="modal-content">
-                    <span class="close" onclick="closemodal(event)">&times;</span>
-                    Change your variable {name} !
-                    <input type="text" df-name>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-            `;
-            editor.addNode('dbclick', 1, 1, pos_x, pos_y, 'dbclick', { name: ''}, dbclick );
-            break;
-
-        default:
-      }
-    }
-
-  var transform = '';
-  function showpopup(e) {
-    e.target.closest(".drawflow-node").style.zIndex = "9999";
-    e.target.children[0].style.display = "block";
-    //document.getElementById("modalfix").style.display = "block";
-
-    //e.target.children[0].style.transform = 'translate('+translate.x+'px, '+translate.y+'px)';
-    transform = editor.precanvas.style.transform;
-    editor.precanvas.style.transform = '';
-    editor.precanvas.style.left = editor.canvas_x +'px';
-    editor.precanvas.style.top = editor.canvas_y +'px';
-    console.log(transform);
-
-    //e.target.children[0].style.top  =  -editor.canvas_y - editor.container.offsetTop +'px';
-    //e.target.children[0].style.left  =  -editor.canvas_x  - editor.container.offsetLeft +'px';
-    editor.editor_mode = "fixed";
-
-  }
-
-   function closemodal(e) {
-     e.target.closest(".drawflow-node").style.zIndex = "2";
-     e.target.parentElement.parentElement.style.display  ="none";
-     //document.getElementById("modalfix").style.display = "none";
-     editor.precanvas.style.transform = transform;
-       editor.precanvas.style.left = '0px';
-       editor.precanvas.style.top = '0px';
-      editor.editor_mode = "edit";
-   }
 
     function changeModule(event) {
       var all = document.querySelectorAll(".menu ul li");
@@ -893,36 +696,62 @@
 			showDiv(div2);
 		}
 	}
+
 	
-	function processChange(id) {
-		document.getElementById(id).style.backgroundColor = 'red';
-	
+	function flowChange(name) {
+		var node_id = editor.getNodesFromName(name);
+		var node = document.getElementById("node-" + node_id[0])
+		var value = node.querySelector("#pri-select-").value;
+		var color = ['#87CEFA', '#98FB98', '#F0E68C', '#FFB6C1', '#FFB6C1'];
+		node.querySelector("#title-box-").style.backgroundColor = color[value];
 	}
 
 
-	function output_animation(event){
+	function runAnimation(event){
 		if(event.target.innerHTML == "运行"){
 			event.target.innerHTML = "停止";		
 
-	    numnode    = editor.nodeId - 1;
+	    var numnode    = editor.nodeId - 1;
+			//var numnode = getJsonLength(this.drawflow.drawflow.Home.data);
+			console.error("WWWWWWWWWWWWWxxxhhhhhhhh:" + numnode);
 	    for (let i = 1; i <= numnode; i++){
 	    	infoNode   = editor.getNodeFromId(i);
-	    	var an;
+	    	var an_out, an_in;
 	    	if(infoNode.data.trigger == "定时触发"){
-	    		an = "fade 300ms infinite";
+	    		an_out = "out 300ms infinite";
+	    		an_in = "in 100ms infinite";
+	    		fr = "10";
 	    	}else{
-	    		an = "fade 100ms infinite";
+	    		an_out = "out 100ms infinite";
+	    		an_in = "in 100ms infinite";
+	    		fr = "30"
 	    	}
 
 	    	numOutputs = Object.keys(infoNode.outputs).length;
-	    	parent = editor.container.querySelector('#node-'+i+' .outputs');
+	    	numInputs = Object.keys(infoNode.inputs).length;
+	    	parent_out = editor.container.querySelector('#node-'+i+' .outputs');
+	    	parent_in = editor.container.querySelector('#node-'+i+' .inputs');
 
 	    	for (let j = 0; j < numOutputs; j++){
-	    		output = parent.children[j];
-	    		//output.classList.add("output2");
-	    		output.style.animation = an;
+	    		output = parent_out.children[j];
+	    		output.style.animation = an_out;
+	    		output.innerHTML = fr;
 	    	}
-	    }			
+
+	    	for (let j = 0; j < numInputs; j++){
+	    		input = parent_in.children[j];
+	    		if(infoNode.inputs["input_"+(j+1)].connections.length != 0){
+	    			input.style.animation = an_in;
+	    			input.innerHTML = fr;
+	    		}
+	    	}
+	    }		
+
+			var connections = editor.precanvas.getElementsByClassName("connection");
+			for (let k = 0; k < connections.length; k++){
+				connections[k].children[0].innerHTML = '<animate attributeName="stroke" values="#800;#f00;#fb8;#800" dur="2s" repeatCount="indefinite"/>';;
+				console.error("WWWWWWWWWWWWWxxx:" + connections.length);
+			}	
 		}else{
 			event.target.innerHTML = "运行";
 			
@@ -930,16 +759,64 @@
 	    for (let i = 1; i <= numnode; i++){
 	    	infoNode   = editor.getNodeFromId(i);
 	    	numOutputs = Object.keys(infoNode.outputs).length;
+	    	numInputs = Object.keys(infoNode.inputs).length;
 	    	parent = editor.container.querySelector('#node-'+i+' .outputs');
-
+        parent_in = editor.container.querySelector('#node-'+i+' .inputs');
 	    	for (let j = 0; j < numOutputs; j++){
 	    		output = parent.children[j];
-	    		//output.classList.remove("output2");
 	    		output.style.animation = "";
+	    		output.innerHTML = "";
+	    	}
+
+	    	for (let j = 0; j < numInputs; j++){
+	    		input = parent_in.children[j];
+	    		input.style.animation = "";
+	    		input.innerHTML = "";
 	    	}
 			}
-		}
 
+			var connections = editor.precanvas.getElementsByClassName("connection");
+			for (let k = 0; k < connections.length; k++){
+				connections[k].children[0].innerHTML = '';
+				console.error("WWWWWWWWWWWWWxxx:" + connections[k].children.length);
+			}
+		}
+	}
+
+	function showMsg(option){
+		drawtrigger(1);
+		var numnode = editor.nodeId - 1;
+		if(option == "show"){
+			msgshow.style.display = 'none';
+			msghide.style.display = 'block';
+			for (let i = 1; i <= numnode; i++){
+		    infoNode   = editor.getNodeFromId(i);
+		    numOutputs = Object.keys(infoNode.outputs).length;
+				parent_out = editor.container.querySelector('#node-'+i+' .outputs');
+				for (let j = 0; j < numOutputs; j++){
+		  		output = parent_out.children[j];
+
+					var div = document.createElement("div");
+					div.style.display = "inline";
+					div.style.fontSize = "14px";
+					div.textAlign = "center";
+					div.innerHTML = "&nbsp&nbsp&nbsp&nbsp" + infoNode.data.out[j];
+					output.appendChild(div);
+		  	}
+		  }	
+		}else if(option == "hide"){
+			msgshow.style.display = 'block';
+			msghide.style.display = 'none';
+			for (let i = 1; i <= numnode; i++){
+		    infoNode   = editor.getNodeFromId(i);
+		    numOutputs = Object.keys(infoNode.outputs).length;
+				parent_out = editor.container.querySelector('#node-'+i+' .outputs');
+				for (let j = 0; j < numOutputs; j++){
+		  		output = parent_out.children[j];
+					output.removeChild(output.children[0]);
+		  	}
+		  }
+		}
 	}
 
 	
