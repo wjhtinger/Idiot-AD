@@ -20,7 +20,7 @@
 
 
   <header>
-    <h2><i class="fas fa-th-list" style="color:#3366CC"></i>  Idiot-AD <span style="font-size: 16; color: #666666; float:right; margin-right: 50px;">支持</span></h2>
+    <h2 style="background-color: #EEEEEE; padding-left: 20px;"><i class="fas fa-th-list" style="color:#3366CC"></i>  Idiot-AD <a style="font-size: 16px !important; color: #666666; float:right; margin-right: 50px;">支持</a></h2>
     <!--<div class="github-link"><a href="https://github.com/jerosoler/Drawflow" target="_blank"><i class="fab fa-github fa-3x"></i></a></div>
     <div class="them-edit-link"><a href="https://jerosoler.github.io/drawflow-theme-generator/" target="_blank">🎨</a></div>-->
   </header>
@@ -141,13 +141,11 @@
         </ul>
       </div>
       <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:block;"> 
-        <div class="btn-export" onclick="Swal.fire({ title: 'Export',
-        html: JSON.stringify(editor.export(), null,4)+'</code></pre>'
-        })">导出</div>
+        <div class="btn-export" onclick="exportAll(JSON.stringify(editor.export())); console.log(JSON.stringify(editor.export()))">导出</div>
 				<div class="btn-clear" onclick="localStorage.setItem('ACC', JSON.stringify(editor.export()))">保存</div>
-				<div class="btn-clear" style="right:160px" onclick="runAnimation(event);">运行</div>
-				<!--<div class="btn-clear" onclick="console.error(JSON.stringify(editor.export()))">打印</div>-->
-	      <!--<div class="btn-clear" onclick="editor.clearModuleSelected()">清除</div>-->
+				<div class="btn-clear" style="right: 130px;" onclick="editor.clearModuleSelected()">清除</div>
+				<div class="btn-clear" style="right:210px; background: #FF9900" onclick="runAnimation(event); display:none;">运行</div>
+				<div class="btn-clear" style="right:270px; background: #FF9900" onclick="autoConnection(); display:none;">自动连接</div>	      
 
 	      <div class="btn-lock">
 	        <i id="lock" class="fas fa-lock" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
@@ -158,10 +156,10 @@
 	        <i class="fas fa-search" onclick="editor.zoom_reset()"></i>
 	        <i class="fas fa-search-plus" onclick="editor.zoom_in()"></i>
 	      </div>
-	      <div class="btn-lock" style="right: 200px;">
+	      <div class="btn-msg">
 	      	<i id="msgshow" class="fas fa-list-alt" onclick="showMsg('show');"></i>
 	      	<i id="msghide" class="fas fa-list-ul" onclick="showMsg('hide');" style="display:none;"></i>
-	      <div>
+	      </div>
       </div>
       <div id="drawflow2" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>
       <div id="drawflow3" style="padding-top:40px; width:1000px; height:100%; display:none;"><iframe src="edit.html" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe></div>      		
@@ -341,12 +339,12 @@
 	var node_data0 = {"node_name":"车辆数据","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":[],"out":["/ICVOS/EX/Vehicle/Report"]};
 	var node_data1 = {"node_name":"毫米波雷达数据","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":[],"out":["/ICVOS/CV/Sensor/RadarRaw/Front"]};
 	var node_data2 = {"node_name":"图像感知数据","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":[],"out":["/ICVOS/PC/Fusion/Road","/CV/Calibration","/ICVOS/FreeSpace","/ICVOS/CV/Detection/ObjectCnnOutput","/ICVOS/TsrMsg"]};
-	var node_data3 = {"node_name":"毫米波雷达后处理","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/ICVOS/CV/Sensor/RadarRaw","/ICVOS/EX/Vehicle/Report"],"out":["/ICVOS/CV/Sensor/RadarProcessed"],"sot":[1,0]};
+	var node_data3 = {"node_name":"毫米波雷达后处理","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/ICVOS/EX/Vehicle/Report","/ICVOS/CV/Sensor/RadarRaw/Front"],"out":["/ICVOS/CV/Sensor/RadarProcessed"],"sot":[1,0]};
 	var node_data4 = {"node_name":"图像感知后处理","flow":"采集流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/CV/Calibration","/ICVOS/CV/Detection/ObjectCnnOutput"],"out":["/ICVOS/CV/Detection/ObjectTrack"],"sot":[0,1]};
 	var node_data5 = {"node_name":"车辆运动","flow":"融合流程","prioffset":0,"trigger":"批次触发","interval":0,"develop":"代码","in":["/ICVOS/EX/Vehicle/Report"],"out":["/ICVOS/Location/Odometry"],"sot":[1]};
 	var node_data6 = {"node_name":"物体融合","flow":"融合流程","prioffset":0,"trigger":"批次触发","interval":0,"develop":"代码","in":["/ICVOS/CV/Sensor/RadarProcessed","/ICVOS/CV/Detection/ObjectTrack"],"out":["/ICVOS/PC/Fusion/Objecttracks"],"sot":[1,1]};
 	var node_data7 = {"node_name":"定位前导车","flow":"融合流程","prioffset":0,"trigger":"批次触发","interval":0,"develop":"图形","in":["/ICVOS/PC/Fusion/Objecttracks","/ICVOS/PC/Fusion/Road"],"out":["/ICVOS/FN/Plan/LeadVehicle"],"sot":[1,0]};
-	var node_data8 = {"node_name":"路径规划","flow":"规划流程","prioffset":0,"trigger":"定时触发","interval":50,"develop":"图形","in":["/ICVOS/Sys/Ctrl/HmiAcc","/ICVOS/PC/Fusion/Road","/ICVOS/PC/Fusion/Objecttracks","/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report","/ICVOS/Location/Odometry"],"out":["/ICVOS/Plan/Trajectory"],"sot":[0,0,0,0,0,0]};
+	var node_data8 = {"node_name":"路径规划","flow":"规划流程","prioffset":0,"trigger":"定时触发","interval":50,"develop":"图形","in":["/ICVOS/Location/Odometry","/ICVOS/PC/Fusion/Road","/ICVOS/PC/Fusion/Objecttracks","/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report","/ICVOS/Sys/Ctrl/HmiAcc"],"out":["/ICVOS/Plan/Trajectory"],"sot":[0,0,0,0,0,0]};
 	var node_data9 = {"node_name":"决策控制","flow":"控制流程","prioffset":0,"trigger":"定时触发","interval":90,"develop":"图形","in":["/ICVOS/Sys/Ctrl/HmiAcc","/ICVOS/Plan/Trajectory","/ICVOS/Location/Odometry","/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report"],"out":["/ICVOS/Sys/Ctrl/Command"],"sot":[0,0,0,0,0]};
 	var node_data10= {"node_name":"状态机","flow":"控制流程","prioffset":0,"trigger":"最新触发","interval":0,"develop":"代码","in":["/ICVOS/FN/Plan/LeadVehicle","/ICVOS/EX/Vehicle/Report","/ICVOS/PC/Fusion/Road","/ICVOS/Sys/Ctrl/Command"],"out":["/ICVOS/Sys/Ctrl/HmiAcc","/ICVOS/Sys/Ctrl/HmiDisplay"],"sot":[1,1,1,1]};
 
@@ -461,7 +459,7 @@
     
 	  var node = `
       <div>
-        <div id="`+id0+`" style="background:`+ title_color.toString() +`;" class="title-box"><i class="fas fa-cube"></i> ` + node_data.node_name + `<span style="float:right; vertical-align:middle; padding:0 8px 0 0;"><button type="button" style="font-size: 18px;" onclick="develop('`+id5+`')"><i id="`+id5+`" class="`+svg.toString()+`"></i></button></span></div>
+        <div id="`+id0+`" style="background:`+ title_color.toString() +`;" class="title-box"><i class="fas fa-cube"></i> ` + node_data.node_name + `<span style="float:right; vertical-align:middle; padding:0 8px 0 0;"><button type="button" style="font-size: 18px;" onclick="develop(this)"><i id="`+id5+`" class="`+svg.toString()+`"></i></button></span></div>
 		    <div class="box">	
 		  流程:
           <select id="`+id1+`" df-channel onchange="flowChange('`+node_name+`')" style="width:75px; font-size: 12px;">				
@@ -671,8 +669,8 @@
 		 
 	}
 
-	function develop(str) {
-		if(document.getElementById(str).getAttribute('class').indexOf("fa-cubes") >= 0){
+	function develop(Object) {
+		if(Object.children[0].getAttribute('class').indexOf("fa-cubes") >= 0){
 			document.getElementById('drawflow').style.display = "none";
     	document.getElementById('drawflow2').style.display = "block";
     	document.getElementById('drawflow3').style.display = "none";
@@ -683,7 +681,7 @@
     	document.getElementById('bt1').disabled = false;
     	document.getElementById('bt2').disabled = true;
     	showDiv(div1);
-		}else if(document.getElementById(str).getAttribute('class').indexOf("fa-file") >= 0){
+		}else if(Object.children[0].getAttribute('class').indexOf("fa-file") >= 0){
 			document.getElementById('drawflow').style.display = "none";
     	document.getElementById('drawflow2').style.display = "none";
     	document.getElementById('drawflow3').style.display = "block";
@@ -713,7 +711,6 @@
 
 	    var numnode    = editor.nodeId - 1;
 			//var numnode = getJsonLength(this.drawflow.drawflow.Home.data);
-			console.error("WWWWWWWWWWWWWxxxhhhhhhhh:" + numnode);
 	    for (let i = 1; i <= numnode; i++){
 	    	infoNode   = editor.getNodeFromId(i);
 	    	var an_out, an_in;
@@ -750,7 +747,6 @@
 			var connections = editor.precanvas.getElementsByClassName("connection");
 			for (let k = 0; k < connections.length; k++){
 				connections[k].children[0].innerHTML = '<animate attributeName="stroke" values="#800;#f00;#fb8;#800" dur="2s" repeatCount="indefinite"/>';;
-				console.error("WWWWWWWWWWWWWxxx:" + connections.length);
 			}	
 		}else{
 			event.target.innerHTML = "运行";
@@ -778,7 +774,6 @@
 			var connections = editor.precanvas.getElementsByClassName("connection");
 			for (let k = 0; k < connections.length; k++){
 				connections[k].children[0].innerHTML = '';
-				console.error("WWWWWWWWWWWWWxxx:" + connections[k].children.length);
 			}
 		}
 	}
@@ -792,16 +787,30 @@
 			for (let i = 1; i <= numnode; i++){
 		    infoNode   = editor.getNodeFromId(i);
 		    numOutputs = Object.keys(infoNode.outputs).length;
+		    numInputs = Object.keys(infoNode.inputs).length;
+
 				parent_out = editor.container.querySelector('#node-'+i+' .outputs');
 				for (let j = 0; j < numOutputs; j++){
 		  		output = parent_out.children[j];
 
 					var div = document.createElement("div");
 					div.style.display = "inline";
-					div.style.fontSize = "14px";
+					div.style.fontSize = "12px";
 					div.textAlign = "center";
 					div.innerHTML = "&nbsp&nbsp&nbsp&nbsp" + infoNode.data.out[j];
 					output.appendChild(div);
+		  	}
+		  	continue;
+				parent_in = editor.container.querySelector('#node-'+i+' .inputs');
+				for (let j = 0; j < numInputs; j++){
+		  		input = parent_in.children[j];
+
+					var div = document.createElement("div");
+					div.style.display = "inline";
+					div.style.fontSize = "12px";
+					div.textAlign = "center";
+					div.innerHTML = "&nbsp&nbsp&nbsp&nbsp" + infoNode.data.in[j];
+					input.appendChild(div);
 		  	}
 		  }	
 		}else if(option == "hide"){
@@ -817,6 +826,37 @@
 		  	}
 		  }
 		}
+	}
+
+	function autoConnection(){
+		numnode = editor.nodeId - 1;
+		for (let i = 1; i <= numnode; i++){
+    	infoNode   = editor.getNodeFromId(i);
+    	numOutputs = Object.keys(infoNode.outputs).length;
+    	for(let k = 0; k < numOutputs; k++){
+    		msgOut = infoNode.data.out[k];
+
+	    	for (let j = 1; j <= numnode; j++){
+	    		if(i == j){
+	    			continue;
+	    		}
+	    		infoNode2 = editor.getNodeFromId(j);
+	    		numInputs = Object.keys(infoNode2.inputs).length;
+	    		for(let l = 0; l < numInputs; l++){
+    				msgIn = infoNode2.data.in[l];
+    				if(msgOut == msgIn){
+    					editor.addConnection(i, j, 'output_'+(k+1).toString(), 'input_'+(l+1).toString());
+    				}
+    			}
+	    	}
+    	}
+		}			
+	}
+
+
+	function exportAll(str){
+		myWindow = window.open();
+		myWindow.document.write('<pre></pre>'+str);
 	}
 
 	
