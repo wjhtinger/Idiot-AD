@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,13 +24,20 @@
     <!--<div class="github-link"><a href="https://github.com/jerosoler/Drawflow" target="_blank"><i class="fab fa-github fa-3x"></i></a></div>
     <div class="them-edit-link"><a href="https://jerosoler.github.io/drawflow-theme-generator/" target="_blank">🎨</a></div>-->
   </header>
+        <div class="menu" style="display: flex; justify-content: center;">
+        <ul id="rmenu">
+          <li id="rli0" name="rli0" onclick=" changeModule(event);" class="selected">数据流图</li>
+          <li id="rli1" name="rli1" onclick=" changeModule(event);" >图形开发</li>
+          <li id="rli2" name="rli2" onclick=" changeModule(event);" >代码开发</li>
+        </ul>
+      </div>
   <div class="wrapper">
 
-    <div class="col">
-		<div>
-			<span style="width: 200px;"><button id="bt0" type="button" style="font-size: 18px; background-color: white; border: none;"  onclick="showDiv('div0')">流程模板</button></span>
-			<span style="width: 200px;"><button id="bt1" type="button" style="font-size: 18px;"  onclick="showDiv('div1')">功能节点</button></span>
-			<span style="width: 200px;"><button id="bt2" type="button" style="font-size: 18px;" disabled="true"  onclick="showDiv('div2')">算法组件</button></span>
+    <div class="col" id="col_left">
+		<div style="width: 100%; font-size:0">
+			<span style="width: 50%; font-size:0"><button id="bt0" type="button" style="width: 50%; margin:0; font-size: 18px; background-color: white; border:1px solid; border-bottom: none; "  onclick="showDiv('div0')">流程模板</button></span>
+			<span style="width: 50%; font-size:0"><button id="bt1" type="button" style="width: 50%; margin:0; font-size: 18px; background-color: #a9a9a9; border:1px solid;"  onclick="showDiv('div1')">功能节点</button></span>
+			<!--<span style="width: 200px;"><button id="bt2" type="button" style="font-size: 18px;" disabled="true"  onclick="showDiv('div2')">算法组件</button></span>-->
 		</div>
 		
 		<div id="div0" style="display: block;">
@@ -133,19 +140,17 @@
 
     </div>
     <div class="col-right">
-      <div class="menu">
-        <ul id="rmenu">
-          <li id="rli0" name="rli0" onclick=" changeModule(event);" class="selected">数据流图</li>
-          <li id="rli1" name="rli1" onclick=" changeModule(event);" >图形编程</li>
-          <li id="rli2" name="rli2" onclick=" changeModule(event);" >代码编程</li>
+    	<div class="menu" id="menu_flow" style="display: block; height: 30px; font-size:12px; display:flex; align-items:center;">
+        <ul>
+          <li onclick="" class="selected">未命名1</li>
         </ul>
-      </div>
+      </div>      
       <div id="drawflow" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:block;"> 
         <div class="btn-export" onclick="exportAll(JSON.stringify(editor.export())); console.log(JSON.stringify(editor.export()))">导出</div>
 				<div class="btn-clear" onclick="localStorage.setItem('ACC', JSON.stringify(editor.export()))">保存</div>
 				<div class="btn-clear" style="right: 130px;" onclick="editor.clearModuleSelected()">清除</div>
-				<div class="btn-clear" style="right:210px; background: #FF9900" onclick="runAnimation(event); display:none;">运行</div>
-				<div class="btn-clear" style="right:270px; background: #FF9900" onclick="autoConnection(); display:none;">自动连接</div>	      
+				<div class="btn-clear" style="right:210px; display:block; background: #FF9900" onclick="runAnimation(event);">运行</div>
+				<div class="btn-clear" style="right:270px; display:block; background: #FF9900" onclick="autoConnection();">自动连接</div>	      
 
 	      <div class="btn-lock">
 	        <i id="lock" class="fas fa-lock" onclick="editor.editor_mode='fixed'; changeMode('lock');"></i>
@@ -161,9 +166,11 @@
 	      	<i id="msghide" class="fas fa-list-ul" onclick="showMsg('hide');" style="display:none;"></i>
 	      </div>
       </div>
-      <div id="drawflow2" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>
-      <div id="drawflow3" style="padding-top:40px; width:1000px; height:100%; display:none;"><iframe src="edit.html" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe></div>      		
+      <!--<div id="drawflow2" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>-->
+      
     </div>
+    <div id="drawflow2" style="width:100%; height:100%; display:none;"><iframe id="iframe_blockly" src="BlocklyDuino-v2/index.html" width="100%" height="100%" frameborder="0" scrolling="none"></iframe></div>
+    <div id="drawflow3" style="width:100%; height:100%; display:none;"><iframe src="edit.html" width="100%" height="100%" frameborder="0" scrolling="auto"></iframe></div>      		
   </div>
   
   
@@ -182,13 +189,13 @@
     var id = document.getElementById("drawflow");
     const editor = new Drawflow(id);
     editor.reroute = true;
-    var id2 = document.getElementById("drawflow2");
-    const editor2 = new Drawflow(id2);
-    editor2.reroute = true;
+    //var id2 = document.getElementById("drawflow2");
+    //const editor2 = new Drawflow(id2);
+    //editor2.reroute = true;
 
     const dataToImport = {"drawflow":{"Home":{"data":{"3":{"id":3,"name":"ActrReort","data":{"node_name":"车辆数据","flow":"采集流程","trigger":"最新触发","id0":"title-box-车辆数据320.01617431640625","id1":"pri-select-车辆数据320.01617431640625","id2":"triger-select-车辆数据320.01617431640625","id3":"timer-input-车辆数据320.01617431640625"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-车辆数据320.01617431640625\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>车辆数据</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-车辆数据320.01617431640625\" df-channel onchange=\"processChange(title-box-车辆数据320.01617431640625)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-车辆数据320.01617431640625\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-车辆数据320.01617431640625\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{},"outputs":{"output_1":{"connections":[{"node":"6","output":"input_1"},{"node":"7","output":"input_1"},{"node":"11","output":"input_4"},{"node":"12","output":"input_1"}]}},"pos_x":264,"pos_y":136},"4":{"id":4,"name":"ActrReort","data":{"node_name":"毫米波雷达数据","flow":"采集流程","trigger":"最新触发","id0":"title-box-毫米波雷达数据374.01617431640625","id1":"pri-select-毫米波雷达数据374.01617431640625","id2":"triger-select-毫米波雷达数据374.01617431640625","id3":"timer-input-毫米波雷达数据374.01617431640625"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-毫米波雷达数据374.01617431640625\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>毫米波雷达数据</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-毫米波雷达数据374.01617431640625\" df-channel onchange=\"processChange(title-box-毫米波雷达数据374.01617431640625)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-毫米波雷达数据374.01617431640625\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-毫米波雷达数据374.01617431640625\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{},"outputs":{"output_1":{"connections":[{"node":"7","output":"input_2"}]}},"pos_x":261,"pos_y":349},"5":{"id":5,"name":"ActrReort","data":{"node_name":"图像感知数据","flow":"采集流程","trigger":"最新触发","id0":"title-box-图像感知数据352.01617431640625","id1":"pri-select-图像感知数据352.01617431640625","id2":"triger-select-图像感知数据352.01617431640625","id3":"timer-input-图像感知数据352.01617431640625"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-图像感知数据352.01617431640625\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>图像感知数据</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-图像感知数据352.01617431640625\" df-channel onchange=\"processChange(title-box-图像感知数据352.01617431640625)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-图像感知数据352.01617431640625\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-图像感知数据352.01617431640625\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{},"outputs":{"output_1":{"connections":[{"node":"10","output":"input_1"},{"node":"11","output":"input_5"}]},"output_2":{"connections":[]},"output_3":{"connections":[]},"output_4":{"connections":[{"node":"8","output":"input_1"}]},"output_5":{"connections":[{"node":"8","output":"input_2"}]}},"pos_x":268,"pos_y":790},"6":{"id":6,"name":"ActrReort","data":{"node_name":"车辆运动","flow":"融合流程","trigger":"批次触发","id0":"title-box-车辆运动753.0161743164062","id1":"pri-select-车辆运动753.0161743164062","id2":"triger-select-车辆运动753.0161743164062","id3":"timer-input-车辆运动753.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-车辆运动753.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>车辆运动</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-车辆运动753.0161743164062\" df-channel onchange=\"processChange(title-box-车辆运动753.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-车辆运动753.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-车辆运动753.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"3","input":"output_1"}]}},"outputs":{"output_1":{"connections":[{"node":"11","output":"input_3"},{"node":"11","output":"input_2"},{"node":"12","output":"input_2"}]}},"pos_x":789,"pos_y":88},"7":{"id":7,"name":"ActrReort","data":{"node_name":"毫米波雷达后处理","flow":"采集流程","trigger":"最新触发","id0":"title-box-毫米波雷达后处理823.0161743164062","id1":"pri-select-毫米波雷达后处理823.0161743164062","id2":"triger-select-毫米波雷达后处理823.0161743164062","id3":"timer-input-毫米波雷达后处理823.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-毫米波雷达后处理823.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>毫米波雷达后处理</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-毫米波雷达后处理823.0161743164062\" df-channel onchange=\"processChange(title-box-毫米波雷达后处理823.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-毫米波雷达后处理823.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-毫米波雷达后处理823.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"3","input":"output_1"}]},"input_2":{"connections":[{"node":"4","input":"output_1"}]}},"outputs":{"output_1":{"connections":[{"node":"9","output":"input_1"}]}},"pos_x":705,"pos_y":379},"8":{"id":8,"name":"ActrReort","data":{"node_name":"图像感知后处理","flow":"采集流程","trigger":"最新触发","id0":"title-box-图像感知后处理774.0161743164062","id1":"pri-select-图像感知后处理774.0161743164062","id2":"triger-select-图像感知后处理774.0161743164062","id3":"timer-input-图像感知后处理774.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-图像感知后处理774.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>图像感知后处理</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-图像感知后处理774.0161743164062\" df-channel onchange=\"processChange(title-box-图像感知后处理774.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-图像感知后处理774.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-图像感知后处理774.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"5","input":"output_4"}]},"input_2":{"connections":[{"node":"5","input":"output_5"}]}},"outputs":{"output_1":{"connections":[{"node":"9","output":"input_2"}]}},"pos_x":658,"pos_y":788},"9":{"id":9,"name":"ActrReort","data":{"node_name":"物体融合","flow":"融合流程","trigger":"批次触发","id0":"title-box-物体融合1039.0161743164062","id1":"pri-select-物体融合1039.0161743164062","id2":"triger-select-物体融合1039.0161743164062","id3":"timer-input-物体融合1039.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-物体融合1039.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>物体融合</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-物体融合1039.0161743164062\" df-channel onchange=\"processChange(title-box-物体融合1039.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-物体融合1039.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-物体融合1039.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"7","input":"output_1"}]},"input_2":{"connections":[{"node":"8","input":"output_1"}]}},"outputs":{"output_1":{"connections":[{"node":"10","output":"input_2"}]}},"pos_x":1099,"pos_y":676},"10":{"id":10,"name":"ActrReort","data":{"node_name":"定位前导车","flow":"融合流程","trigger":"批次触发","id0":"title-box-定位前导车1413.0161743164062","id1":"pri-select-定位前导车1413.0161743164062","id2":"triger-select-定位前导车1413.0161743164062","id3":"timer-input-定位前导车1413.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-定位前导车1413.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>定位前导车</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-定位前导车1413.0161743164062\" df-channel onchange=\"processChange(title-box-定位前导车1413.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-定位前导车1413.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-定位前导车1413.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"5","input":"output_1"}]},"input_2":{"connections":[{"node":"9","input":"output_1"}]}},"outputs":{"output_1":{"connections":[{"node":"11","output":"input_6"},{"node":"12","output":"input_5"}]}},"pos_x":1410,"pos_y":821},"11":{"id":11,"name":"ActrReort","data":{"node_name":"路径规划","flow":"规划流程","trigger":"定时触发","id0":"title-box-路径规划1766.0161743164062","id1":"pri-select-路径规划1766.0161743164062","id2":"triger-select-路径规划1766.0161743164062","id3":"timer-input-路径规划1766.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-路径规划1766.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>路径规划</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-路径规划1766.0161743164062\" df-channel onchange=\"processChange(title-box-路径规划1766.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-路径规划1766.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-路径规划1766.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"13","input":"output_2"}]},"input_2":{"connections":[{"node":"6","input":"output_1"}]},"input_3":{"connections":[{"node":"6","input":"output_1"}]},"input_4":{"connections":[{"node":"3","input":"output_1"}]},"input_5":{"connections":[{"node":"5","input":"output_1"}]},"input_6":{"connections":[{"node":"10","input":"output_1"}]}},"outputs":{"output_1":{"connections":[{"node":"12","output":"input_4"}]}},"pos_x":1309,"pos_y":328},"12":{"id":12,"name":"ActrReort","data":{"node_name":"决策控制","flow":"控制流程","trigger":"定时触发","id0":"title-box-决策控制2060.0161743164062","id1":"pri-select-决策控制2060.0161743164062","id2":"triger-select-决策控制2060.0161743164062","id3":"timer-input-决策控制2060.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-决策控制2060.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>决策控制</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-决策控制2060.0161743164062\" df-channel onchange=\"processChange(title-box-决策控制2060.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-决策控制2060.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-决策控制2060.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"3","input":"output_1"}]},"input_2":{"connections":[{"node":"6","input":"output_1"}]},"input_3":{"connections":[{"node":"13","input":"output_1"}]},"input_4":{"connections":[{"node":"11","input":"output_1"}]},"input_5":{"connections":[{"node":"10","input":"output_1"}]}},"outputs":{"output_1":{"connections":[]},"output_2":{"connections":[]},"output_3":{"connections":[{"node":"13","output":"input_1"}]}},"pos_x":1813,"pos_y":112},"13":{"id":13,"name":"ActrReort","data":{"node_name":"状态机","flow":"控制流程","trigger":"最新触发","id0":"title-box-状态机2055.0161743164062","id1":"pri-select-状态机2055.0161743164062","id2":"triger-select-状态机2055.0161743164062","id3":"timer-input-状态机2055.0161743164062"},"class":"facebook","html":"\n        <div>\n          <div id=\"title-box-状态机2055.0161743164062\" class=\"title-box\" ondblclick=\"window.open('edit.html')\"><i class=\"fab fa-facebook\"></i>状态机</div>\n\t\t    <div class=\"box\">\t\n\t\t\t  流程:\n              <select id=\"pri-select-状态机2055.0161743164062\" df-channel onchange=\"processChange(title-box-状态机2055.0161743164062)\" style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">采集流程</option>\n                <option value=\"channel_2\">融合流程</option>\n                <option value=\"channel_2\">规划流程</option>\n                <option value=\"channel_3\">控制流程</option>\n                <option value=\"channel_4\">基础流程</option>\n              </select><input type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">\t\n\t\t\t  <br>\n\t\t\t  触发:\n\t\t\t  <select id=\"triger-select-状态机2055.0161743164062\" df-channel style=\"width:80px; font-size: 12px;\">\t\t\t\t\n                <option value=\"channel_1\">最新触发</option>\n                <option value=\"channel_2\">批次触发</option>\n                <option value=\"channel_2\">定时触发</option>\n              </select><input id=\"timer-input-状态机2055.0161743164062\" type=\"text\" value=\"0\" df-name style=\"width:20px;height:26px;margin-left:5px;\">              \n\n            </div>\n        </div>\n        ","typenode":false,"inputs":{"input_1":{"connections":[{"node":"12","input":"output_3"}]},"input_2":{"connections":[]},"input_3":{"connections":[]},"input_4":{"connections":[]}},"outputs":{"output_1":{"connections":[{"node":"12","output":"input_3"}]},"output_2":{"connections":[{"node":"11","output":"input_1"}]}},"pos_x":1877,"pos_y":750}}},"Other":{"data":{}}}}
     editor.start();
-    editor2.start();
+    //editor2.start();
     //editor.import(dataToImport);
 	  //editor.addModule('Home');
 	  //editor.addModule('Other');
@@ -523,8 +530,8 @@
     switch (name) {
       case '输入端子':	
       		var sub_node = `<span style="float:left; text-align:center; width: 100%; height: 100%; font-size: 40px;"><i class="fas fa-sign-in-alt"></i></span>`;
-      		var node = `<div><div id="`+id0+`" class="title-box"><i class="fas fa-cubes"></i> ` + name.toString() + `</div><div class="box" style="height:30px;">`+ sub_node +`</div></div>`;
-          editor2.addNode('', 0,  1, pos_x, pos_y, '', {}, node );
+      		var node = `<div><div id="`+id0+`" class="title-box-m"><i class="fas fa-cubes"></i> ` + name.toString() + `</div><div class="box-m" style="height:30px;">`+ sub_node +`</div></div>`;
+          editor2.addNode('', 0,  1, pos_x, pos_y, 'personalized', {}, node );
         break;
       case '输出端子':	
       		var sub_node = `<span style="float:left; text-align:center; width: 100%; height: 100%; font-size: 40px;"><i class="fas fa-sign-out-alt"></i></span>`;
@@ -574,33 +581,29 @@
       event.target.classList.add('selected');
 
       if(event.target.id == "rli0"){
+      	document.getElementById('col_left').style.display = "block";
       	document.getElementById('drawflow').style.display = "block";
       	document.getElementById('drawflow2').style.display = "none";
       	document.getElementById('drawflow3').style.display = "none";
-      	document.getElementById('bt0').disabled = false;
-      	document.getElementById('bt1').disabled = false;
-      	document.getElementById('bt2').disabled = true;
-      	showDiv("div1");
-      	localStorage.setItem('temp2', JSON.stringify(editor2.export()));
+      	document.getElementById('menu_flow').style.display = "block";
+      	//document.getElementById('rli1').classList.add('selected');
+      	//localStorage.setItem('temp2', JSON.stringify(editor2.export()));
       	//editor.import(JSON.parse(localStorage.getItem("temp")));      	
       }else if(event.target.id == "rli1"){
+      	document.getElementById('col_left').style.display = "none";
       	document.getElementById('drawflow').style.display = "none";
       	document.getElementById('drawflow2').style.display = "block";
       	document.getElementById('drawflow3').style.display = "none";
-      	document.getElementById('bt0').disabled = true;
-      	document.getElementById('bt1').disabled = true;
-      	document.getElementById('bt2').disabled = false;
-      	showDiv("div2");
+      	document.getElementById('menu_flow').style.display = "none";
+      	document.getElementById("iframe_blockly").src ="BlocklyDuino-v2/index.html"; //防止blockly图形模块文字显示一场问题，workround
       	localStorage.setItem('temp', JSON.stringify(editor.export()));
       	//editor2.import(JSON.parse(localStorage.getItem("temp2")));      	
       }else if(event.target.id == "rli2"){
+      	document.getElementById('col_left').style.display = "none";
 	    	document.getElementById('drawflow').style.display = "none";
 	    	document.getElementById('drawflow2').style.display = "none";
 	    	document.getElementById('drawflow3').style.display = "block";
-      	document.getElementById('bt0').disabled = true;
-      	document.getElementById('bt1').disabled = true;
-      	document.getElementById('bt2').disabled = true;
-
+	    	document.getElementById('menu_flow').style.display = "none";
 	    	//localStorage.setItem('temp', JSON.stringify(editor.export()));
 	    	//editor2.import(JSON.parse(localStorage.getItem("temp2")));      	
       }
@@ -620,78 +623,54 @@
     }
 	
 	function showDiv(str) {
-		//divs = document.getElementById("div0");
-		
-		//divs.style.display = "none";
+
 		if(str == 'div0'){
 			document.getElementById('div1').style.display = "none";
 			document.getElementById('div2').style.display = "none";
 			document.getElementById('bt1').style.border = "1px solid";
-			document.getElementById('bt2').style.border = "1px solid";
-			document.getElementById('bt1').style.backgroundColor = "whitesmoke";
-			document.getElementById('bt2').style.backgroundColor = "whitesmoke";
-			document.getElementById('bt1').style.borderRadius = "2px";
-			document.getElementById('bt2').style.borderRadius = "2px";
-			
+			document.getElementById('bt1').style.backgroundColor = "#a9a9a9";
+			document.getElementById('bt1').style.borderRadius = "1px";		
 			document.getElementById('div0').style.display = "block";
 			document.getElementById('bt0').style.backgroundColor = "white";
-			document.getElementById('bt0').style.border = "none";
+			document.getElementById('bt0').style.borderBottom = "none";			
+
 		}else if(str == 'div1'){
 			document.getElementById('div0').style.display = "none";
 			document.getElementById('div2').style.display = "none";
 			document.getElementById('bt0').style.border = "1px solid";
-			document.getElementById('bt2').style.border = "1px solid";
-			document.getElementById('bt0').style.backgroundColor = "whitesmoke";
-			document.getElementById('bt2').style.backgroundColor = "whitesmoke";
-			document.getElementById('bt0').style.borderRadius = "2px";
-			document.getElementById('bt2').style.borderRadius = "2px";
-			
+			document.getElementById('bt0').style.backgroundColor = "#a9a9a9";
+			document.getElementById('bt0').style.borderRadius = "1px";			
 			document.getElementById('div1').style.display = "block";
 			document.getElementById('bt1').style.backgroundColor = "white";
-			document.getElementById('bt1').style.border = "none";
-			
+			document.getElementById('bt1').style.borderBottom = "none";
 		}else{
-			document.getElementById('div0').style.display = "none";
-			document.getElementById('div1').style.display = "none";
-			document.getElementById('bt0').style.border = "1px solid";
-			document.getElementById('bt1').style.border = "1px solid";
-			document.getElementById('bt0').style.backgroundColor = "whitesmoke";
-			document.getElementById('bt1').style.backgroundColor = "whitesmoke";
-			document.getElementById('bt0').style.borderRadius = "2px";
-			document.getElementById('bt1').style.borderRadius = "2px";
-			
-			document.getElementById('div2').style.display = "block";
-			document.getElementById('bt2').style.backgroundColor = "white";
-			document.getElementById('bt2').style.border = "none";
-			//console.log(localStorage.getItem("ACC"));
-
 		}
 		 
 	}
 
 	function develop(Object) {
 		if(Object.children[0].getAttribute('class').indexOf("fa-cubes") >= 0){
+			document.getElementById('col_left').style.display = "none";
 			document.getElementById('drawflow').style.display = "none";
     	document.getElementById('drawflow2').style.display = "block";
     	document.getElementById('drawflow3').style.display = "none";
     	document.getElementById('rli0').classList.remove('selected');
       document.getElementById('rli2').classList.remove('selected');
       document.getElementById('rli1').classList.add('selected');
-    	document.getElementById('bt0').disabled = false;
-    	document.getElementById('bt1').disabled = false;
-    	document.getElementById('bt2').disabled = true;
-    	showDiv(div1);
+      document.getElementById('menu_flow').style.display = "none";
+      document.getElementById("iframe_blockly").src ="BlocklyDuino-v2/index.html"; //防止blockly图形模块文字显示一场问题，workround
+
+    	//showDiv(div1);
 		}else if(Object.children[0].getAttribute('class').indexOf("fa-file") >= 0){
+			document.getElementById('col_left').style.display = "none";
 			document.getElementById('drawflow').style.display = "none";
     	document.getElementById('drawflow2').style.display = "none";
     	document.getElementById('drawflow3').style.display = "block";
     	document.getElementById('rli0').classList.remove('selected');
       document.getElementById('rli1').classList.remove('selected');
       document.getElementById('rli2').classList.add('selected');
-    	document.getElementById('bt0').disabled = true;
-    	document.getElementById('bt1').disabled = true;
-    	document.getElementById('bt2').disabled = true;
-			showDiv(div2);
+      document.getElementById('menu_flow').style.display = "none";
+			//showDiv(div2);
 		}
 	}
 
