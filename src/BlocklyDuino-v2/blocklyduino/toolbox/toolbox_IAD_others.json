@@ -1,0 +1,22 @@
+var toolbox_IAD_others = {
+   "kind": "categoryToolbox",
+    "contents": [{
+         "kind": "category",
+         "name": "%{BKY_CAT_OTHERS}",
+		"toolboxitemid": "IAD_OTHERS",
+		"level": "1",
+		"levels": "1,2,3",
+         "categorystyle": "iad_others_category",
+		"cssConfig": {
+		  "icon": "customIcon fas fa-border-style"
+		},
+		"contents": [{
+		 "kind": "block",
+		 "type": "ds18b20_search"
+		 }, {
+		"kind": "block",
+		"type": "ds18b20_temp"
+		 }
+	  ]		
+    }]
+};
