@@ -297,6 +297,51 @@
     <category name="%{BKY_CATVARIABLES}" categorystyle="variable_category" custom="VARIABLE_DYNAMIC"></category>
     <category name="%{BKY_CATFUNCTIONS}" categorystyle="procedure_category" custom="PROCEDURE"></category>
     <sep></sep>
+    <category name="%{BKY_CAT_FUSE}" categorystyle="arduino_category"></category>
+    <category name="%{BKY_CAT_PLAN}" categorystyle="arduino_category">
+        <category name="%{BKY_CAT_BOARD_IO}" categorystyle="arduino_category">
+            <block type="arduino_base_inout_buildin_led"></block>
+            <block type="arduino_base_inout_digital_write"></block>
+            <block type="arduino_base_inout_digital_read"></block>
+            <block type="arduino_base_inout_highlow"></block>
+            <block type="arduino_base_inout_analog_write">
+                <value name="PWM">
+                    <shadow type="math_number">
+                        <field name="NUM">0</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="arduino_base_inout_analog_read"></block>
+            <block type="arduino_base_delay">
+                <value name="DELAY_TIME">
+                    <shadow type="math_number">
+                        <field name="NUM">1000</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="arduino_base_angle"></block>
+            <block type="arduino_base_date"></block>
+            <block type="arduino_base_map"></block>
+            <block type="arduino_base_inout_tone">
+                <value name="NUM">
+                    <shadow type="math_number">
+                        <field name="NUM">440</field>
+                    </shadow>
+                </value>
+            </block>
+            <block type="arduino_base_inout_notone"></block>
+            <block type="arduino_base_serial_print">
+                <value name="CONTENT">
+                    <shadow type="text">
+                        <field name="TEXT"></field>
+                    </shadow>
+                </value>
+            </block>
+        </category>
+    </category>
+    <category name="%{BKY_CAT_CONTROL}" categorystyle="arduino_category"></category>
+    <category name="%{BKY_CAT_OTHER}" categorystyle="arduino_category"></category>
+
     <category name="%{BKY_CAT_BOARD}" categorystyle="arduino_category">
         <category name="%{BKY_CAT_BOARD_IO}" categorystyle="arduino_category">
             <block type="arduino_base_inout_buildin_led"></block>

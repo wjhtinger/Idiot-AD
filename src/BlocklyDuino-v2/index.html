@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="google" value="notranslate">
         <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-        <title>blockly</title>
+        <title>blocklyduino</title>
         <link rel="icon" type="image/png" href="./blocklyduino/media/logo_only.png" />
         <link rel="stylesheet" href="./css/font_awesome_all.min.css" />
         <link rel="stylesheet" href="./css/keyboard_nav.css" />
@@ -16,7 +16,7 @@
     <body>
         <div class="table_wrapper">
             <table id="globalTable">
-                <tr id="optionsTop">
+                <tr id="optionsTop" style="display:none">
                     <td  id="optionsTopTitle">
                         <img src="./blocklyduino/media/logo_only2.png" style="width: 25px; vertical-align: middle;" />
                         <span class="TitleText" id="appName"></span>
@@ -190,27 +190,27 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="boardButton" class="iconButtons" onclick="Code.boardsListModalShow()">
+                        <button id="boardButton" class="iconButtons" onclick="Code.boardsListModalShow()" style="display:none">
                             <span id="boardButton_span">
                                 <i class="fas fa-microchip"></i>
                             </span>
                         </button>
-                        <button id="verifyButton" class="iconButtons">
+                        <button id="verifyButton" class="iconButtons" style="display:none">
                             <span id="verifyButton_span">
                                 <i class="fas fa-check"></i>
                             </span>
                         </button>
-                        <button id="serialButton" class="iconButtons" onclick="Code.portsListModalShow()">
+                        <button id="serialButton" class="iconButtons" onclick="Code.portsListModalShow()" style="display:none">
                             <span id="serialButton_span">
                                 <i class="fab fa-usb"></i>
                             </span>
                         </button>
-                        <button id="uploadButton" class="iconButtons">
+                        <button id="uploadButton" class="iconButtons" style="display:none">
                             <span id="uploadButton_span">
                                 <i class="fas fa-sign-out-alt"></i>
                             </span>
                         </button>
-                        <button id="serialConnectButton" class="iconButtons">
+                        <button id="serialConnectButton" class="iconButtons" style="display:none">
                             <span id="serialConnectButton_span">
                                 <i class="fas fa-search"></i>
                             </span>
@@ -226,18 +226,18 @@
                                 </div>
                                 <div id="separator">
                                     <label id="editorReadOnlyToggle" class="switch">
-                                        <input type="checkbox" onclick="toggleEditorReadOnly(this)">
-                                        <span class="slider"></span>
+                                        <input type="checkbox" onclick="toggleEditorReadOnly(this)" style="display:none;">
+                                        <span class="slider" style="display:none;"></span>
                                     </label>
                                 </div>
-                                <button id="copyCodeButton" class="iconButtons" onclick="Code.copyToClipboard()">
+                                <button id="copyCodeButton" class="iconButtons" onclick="Code.copyToClipboard()" style="display:none;">
                                     <span id="copyCodeButton_span">
                                         <i class="far fa-copy"></i>
                                     </span>
                                 </button>
-                                <div id="content_code"></div>
+                                <div id="content_code" style="width:40%; border:1px solid #CCCCCC;"></div>
                             </div>
-                            <div id="barre_h">
+                            <div id="barre_h" style="display:none;">
                                 <div id="checkDetails">
                                     <input type="checkbox" name="detailedCompilation" id="detailedCompilation"/>
                                     <span id="detailedCompilation_span"> </span>
@@ -252,7 +252,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <div id="content_serial"></div>
+                            <div id="content_serial" style="display:none;"></div>
                         </div>
                     </td>
                 </tr>
@@ -272,7 +272,7 @@
             </div>
             <form id="keyboard_mappings"></form>
         </div>
-        <div id="lateral-panel-setup">
+        <div id="lateral-panel-setup" style="display:none;">
             <input id="lateral-panel-setup-input" type="checkbox">
             <label id="lateral-panel-setup-label" for="lateral-panel-setup-input" class="label_panel">
                 <span id="setup_side_span">
@@ -577,6 +577,11 @@
     <script src="./blocklyduino/toolbox/toolbox_relay.json"></script>
     <script src="./blocklyduino/toolbox/toolbox_servo.json"></script>
     <script src="./blocklyduino/toolbox/toolbox_standard.json"></script>
+    <script src="./blocklyduino/toolbox/toolbox_IAD_fuse.json"></script>
+    <script src="./blocklyduino/toolbox/toolbox_IAD_plan.json"></script>
+    <script src="./blocklyduino/toolbox/toolbox_IAD_control.json"></script>
+    <script src="./blocklyduino/toolbox/toolbox_IAD_others.json"></script>
+
     <!-- Blockly libraries of function, hacked from different demos -->
     <script src="./js/blockly/keyboard_nav.js"></script>
     <script src="./js/blockly/playground.js"></script>
@@ -605,6 +610,8 @@
     <script src="./blocklyduino/blocks/grove/grove.js" async></script>
     <script src="./blocklyduino/blocks/relay/relay.js" async></script>
     <script src="./blocklyduino/blocks/servo/servo.js" async></script>
+    <script src="./blocklyduino/blocks/IAD_control/IAD_control.js" async></script>
+
     <script src="./blocklyduino/blocks/typed_variable.js" async></script>
     <!-- blocklyduino specific: common generator code -->
     <script src="./generators/arduino_generator.js"></script>
@@ -623,6 +630,8 @@
     <script src="./blocklyduino/arduino/addon/grove.js" async></script>
     <script src="./blocklyduino/arduino/addon/relay.js" async></script>
     <script src="./blocklyduino/arduino/addon/servo.js" async></script>
+    <script src="./blocklyduino/arduino/addon/IAD_control.js" async></script>
+
     <!-- blocklyduino specific -->
     <!-- Blockly themes added -->
     <script src="./blocklyduino/themes/bw.js" async></script>
