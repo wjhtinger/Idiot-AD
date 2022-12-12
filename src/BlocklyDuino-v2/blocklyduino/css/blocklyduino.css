@@ -5,7 +5,7 @@
 */
 
 .blocklyToolboxDiv {
-    box-shadow: 5px 5px 5px gray !important;
+    box-shadow: 1px 1px 1px gray !important;
 }
 .UIText {
     vertical-align: middle;
@@ -26,10 +26,10 @@
     padding:2px;
     line-height:0;
     vertical-align: middle;
-    background: #006468;
+    background: #666666;
     color: #FFFFFF;
-    font-size: 1.5em;
-    width: 32px;
+    font-size: 1.2em;
+    width: 28px;
 }
 .iconButtons:hover{
     background: #FFFFFF;

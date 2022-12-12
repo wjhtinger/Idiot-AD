@@ -145,6 +145,18 @@ Blockly.Themes.blackWhite.categoryStyles = {
     },
     "relay_category": {
         "colour": "#000000"
+    },  
+    "iad_plan_category": {
+        "colour": "#000000"
+    },
+    "iad_fuse_category": {
+        "colour": "#000000"
+    },
+    "iad_control_category": {
+        "colour": "#000000"
+    },
+    "iad_others_category": {
+        "colour": "#000000"
     }
 };
 

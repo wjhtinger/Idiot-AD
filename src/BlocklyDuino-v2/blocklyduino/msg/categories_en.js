@@ -27,3 +27,7 @@ Blockly.Msg.CAT_GROVE_LCD = "- LCD";
 Blockly.Msg.CAT_GROVE_MOTOR = "- Motor";
 Blockly.Msg.CAT_DS18B20 = "DS18B20";
 Blockly.Msg.CAT_RELAY = "Relay";
+Blockly.Msg.CAT_FUSE= "目标融合";
+Blockly.Msg.CAT_PLAN= "路径规划";
+Blockly.Msg.CAT_CONTROL= "决策控制";
+Blockly.Msg.CAT_OTHERS= "其他";

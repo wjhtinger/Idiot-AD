@@ -28,6 +28,19 @@ Blockly.Themes.Classic.categoryStyles['servo_category'] = {
 Blockly.Themes.Classic.categoryStyles['relay_category'] = {
     "colour": "#65ACE2"
 };
+Blockly.Themes.Classic.categoryStyles['iad_plan_category'] = {
+    "colour": "#6699FF"
+};
+Blockly.Themes.Classic.categoryStyles['iad_fuse_category'] = {
+    "colour": "#99CCFF"
+};
+Blockly.Themes.Classic.categoryStyles['iad_control_category'] = {
+    "colour": "#6699CC"
+};
+Blockly.Themes.Classic.categoryStyles['iad_others_category'] = {
+    "colour": "#003399"
+};
+
 //Modern theme
 Blockly.Themes.Modern.categoryStyles['arduino_category'] = {
     "colour": "#007481"

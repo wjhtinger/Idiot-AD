@@ -344,13 +344,13 @@ td.tabMiddle {
 .wrapper_up {
     width: 100%;
     /* Firefox */
-    height: -moz-calc(100% - 41px);
+    height: -moz-calc(100% - 21px);
     /* WebKit */
-    height: -webkit-calc(100% - 41px);
+    height: -webkit-calc(100% - 21px);
     /* Opera */
-    height: -o-calc(100% - 41px);
+    height: -o-calc(100% - 21px);
     /* Standard */
-    height: calc(100% - 41px);
+    height: calc(100% - 21px);
     min-height: 5px;
     display: flex;
 }
