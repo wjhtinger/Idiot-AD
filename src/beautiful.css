@@ -75,7 +75,7 @@ cursor:move;
 
 .menu {
   position: flow;
-  height: 40px;
+  height: 30px;
   display: block;
   background: white;
   width: 100%;
@@ -83,7 +83,7 @@ cursor:move;
 .menu ul {
   padding: 0px;
   margin: 0px;
-  line-height: 40px;
+  line-height: 30px;
 }
 
 .menu ul li {
@@ -91,7 +91,7 @@ cursor:move;
 margin-left: 10px;
 border-right: 1px solid var(--border-color);
 padding-right: 10px;
-line-height: 40px;
+line-height: 30px;
 cursor: pointer;
 }
 
@@ -189,7 +189,7 @@ cursor: pointer;
 #drawflow {
   position: relative;
   width: calc(100vw - 221px);
-  height: calc(100% - 80px);
+  height: calc(100% - 30px);
   top: 0px;
   background: var(--background-color);
   background-size: 25px 25px;
@@ -213,7 +213,7 @@ cursor: pointer;
 #drawflow3 {
   position: relative;
   width: calc(100vw - 221px);
-  height: calc(100% - 60px);
+  height: calc(100% - 30px);
   top: 0px;
   background: var(--background-color);
   background-size: 25px 25px;
@@ -462,7 +462,7 @@ cursor: pointer;
   z-index: 45;
 }
 .contextmenu-content {
-  position: flow;
+  position: fixed;
   left: 999999px;
   top: 999999px;
   z-index: 50;
