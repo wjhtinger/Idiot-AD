@@ -18,6 +18,11 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
   <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
 
+  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/highcharts-more.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
 
   <header>
     <h2 style="background-color: #EEEEEE; padding-left: 20px;"><i class="fas fa-th-list" style="color:#3366CC"></i>  Idiot-AD <a style="font-size: 16px !important; color: #666666; float:right; margin-right: 50px;">支持</a></h2>
@@ -140,6 +145,15 @@
 	      <div class="btn-msg">
 	      	<i id="msgshow" class="fas fa-list-alt" onclick="showMsg('show');"></i>
 	      	<i id="msghide" class="fas fa-list-ul" onclick="showMsg('hide');" style="display:none;"></i>
+	      </div>
+	      <div id="board_info" class="div-info" style="display:none;">
+	      	<div id="mem_info" style="float:left; width: 200px; height: 200px; margin: 0 auto; "></div>
+	      	<div id="cpu_info" style="float:left; min-width: 600px; height: 200px; margin: 0 auto; ">	</div>
+	      	<div style="float:left; background-color: white; ">
+	      		<div style="float:center; font-size:18px; height: 40px; left: 50%; margin-top: 5px; padding-right: 10px; margin:auto; text-align:center;">发布消息</div>
+	      		<div id="topic_info" style="float:left; height: 160px; margin-left: 10px; margin-right: 10px; padding-right: 10px;"></div>	      		
+	      	</div>
+	      	      	
 	      </div>
       </div>
       <!--<div id="drawflow2" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none;"></div>-->
@@ -806,6 +820,8 @@
 			for (let k = 0; k < connections.length; k++){
 				connections[k].children[0].innerHTML = '<animate attributeName="stroke" values="#800;#f00;#fb8;#800" dur="2s" repeatCount="indefinite"/>';;
 			}	
+
+			showBoardInfo();
 		}else{
 			event.target.innerHTML = "运行";
 			
@@ -833,8 +849,46 @@
 			for (let k = 0; k < connections.length; k++){
 				connections[k].children[0].innerHTML = '';
 			}
+			hideBoardInfo();
 		}
 	}
+
+
+	var timer;
+	var count = [10, 15, 30, 34, 45, 56, 70, 80, 91, 100, 62, 64];
+	function showBoardInfo(){
+		document.getElementById('board_info').style.display = "block";	
+		timer = setInterval(update_info, 200);
+
+		function update_info(){
+			topic_info = document.getElementById('topic_info');
+			topic_info.innerHTML = "";
+			numnode    = editor.nodeId - 1;
+			for (let i = 1; i <= numnode; i++){
+	    	infoNode   = editor.getNodeFromId(i);
+	    	data = infoNode.data;
+	    	var j = 0;
+		    for(var item in data.out){	       
+		      html = data.out[j] + ":  " + `&nbsp &nbsp<b style="float: right; color:red">`+ count[i] +`&nbsp[0]</b>`;
+	     		dom = document.createElement('div');
+	     		dom.innerHTML = html;
+	     		topic_info.appendChild(dom);
+	     		j++;
+		    }
+		    count[i] += Math.floor(Math.random()*5+1);
+		  }
+		  
+		}
+
+		memInfo();
+		cpuInfo();
+	}
+
+	function hideBoardInfo(){
+		clearInterval(timer);
+		document.getElementById('board_info').style.display = "none";
+	}
+
 
 	function showMsg(option){
 		drawtrigger(1);
@@ -916,6 +970,188 @@
 		myWindow = window.open();
 		myWindow.document.write('<pre></pre>'+str);
 	}
+
+
+function memInfo(){
+
+    var colors = Highcharts.getOptions().colors,
+        categories = ['used', 'free', 'shared', 'buffers', 'cached'],
+        data = [{
+            y: 55.11,
+            color: colors[0],
+        }, {
+            y: 21.63,
+            color: colors[1],
+        }, {
+            y: 11.94,
+            color: colors[2],
+        }, {
+            y: 7.15,
+            color: colors[3],
+        }, {
+            y: 2.14,
+            color: colors[4],
+        }],
+        browserData = [],
+        versionsData = [],
+        i,
+        j,
+        dataLen = data.length,
+        drillDataLen,
+        brightness;
+
+    // Build the data arrays
+    for (i = 0; i < dataLen; i += 1) {
+        // add browser data
+        browserData.push({
+            name: categories[i],
+            y: data[i].y,
+            color: data[i].color
+        });
+    }
+
+    console.log(browserData);
+    // Create the chart
+    $('#mem_info').highcharts({
+        chart: {
+            type: 'pie'
+        },
+        title: {
+            text: '内存'
+        },
+        yAxis: {
+            title: {
+                text: '全部内存'
+            }
+        },
+        plotOptions: {
+            pie: {
+                shadow: false,
+                center: ['50%', '45%']
+            }
+        },
+        tooltip: {
+            valueSuffix: '%'
+        },
+        legend: {
+            enabled: true
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'MB',
+            data: browserData,
+            size: '150%',
+            dataLabels: {
+                formatter: function () {
+                    return this.y > 5 ? this.point.name : null;
+                },
+                color: 'white',
+                distance: -30
+            }
+        }]
+    });
+}
+
+function cpuInfo(){
+	$('#cpu_info').highcharts({
+	    chart: {
+	        type: 'spline',
+	        animation: Highcharts.svg,
+	        marginRight: 10,
+	        events: {
+	            load: function () {
+	                // set up the updating of the chart each second
+	                var processor_1 = this.series[0];
+	                var processor_2 = this.series[1];
+	                setInterval(function () {	                    
+	                  var x = (new Date()).getTime();
+	                  var processor_1_y = Math.floor(Math.random()*5+60);
+	                  var processor_2_y = Math.floor(Math.random()*20+35);
+	                  processor_1.addPoint([x, processor_1_y], true, true);
+	                  processor_2.addPoint([x, processor_2_y], true, true);
+              }, 1000);
+	          }
+	        }
+	    },
+	    title: {
+	        text: 'CPU'
+	    },
+	    xAxis: {
+	        type: 'datetime',
+	        tickPixelInterval: 150
+	    },
+	    yAxis: {
+	        title: {
+	            text: '使用%'
+	        },
+	        plotLines: [{
+	            value: 0,
+	            width: 1,
+	            color: '#b20000'
+	        },
+	        {
+	            value: 0,
+	            width: 1,
+	            color: '#4A148C'
+	        }]
+	    },
+	    tooltip: {
+	        formatter: function () {
+	            return '<b>' + this.series.name + '</b><br/>' +
+	                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+	                Highcharts.numberFormat(this.y, 2);
+	        }
+	    },
+	    legend: {
+	        enabled: true,
+	        verticalAlign: 'bottom',
+	        x:0,
+	    },
+	    exporting: {
+	        enabled: false
+	    },
+	    series: [{
+	        name: 'core_0',
+	        data: (function () {
+	            // generate an array of random data
+	            var data = [],
+	                time = (new Date()).getTime(),
+	                i;
+
+	            for (i = -19; i <= 0; i += 1) {
+	                data.push({
+	                    x: time + i * 1000,
+	                    // y: processor_1_data
+	                });
+	            }
+	            return data;
+	        }())
+	    },
+	    {
+	        name: 'core_1',
+	        data: (function () {
+	            // generate an array of random data
+	            var data = [],
+	                time = (new Date()).getTime(),
+	                i;
+
+	            for (i = -19; i <= 0; i += 1) {
+	                data.push({
+	                    x: time + i * 1000,
+	                    // y: processor_4_data
+	                });
+	            }
+	            return data;
+	        }())
+	    }]
+	});
+
+}
+
+
+
 
 	
 	

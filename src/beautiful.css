@@ -186,6 +186,22 @@ cursor: pointer;
   padding-left: 0px;
 }
 
+.div-info{
+  float: left;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  white-space: nowrap;
+  font-size: 14px;
+  color: black;
+  padding: 10px 10px;
+  background: rgba(192,192,192,0.1);  
+  border-radius: 4px;
+  z-index: 5;
+  cursor: pointer;  
+}
+
+
 #drawflow {
   position: relative;
   width: calc(100vw - 221px);
@@ -444,12 +460,6 @@ cursor: pointer;
 }
 
 
-.page-view {
-  margin: 0 auto;
-  width: 90%;
-  height: calc(100vh - 30px);
-  background-color: azure;
-}
 
 .contextmenu-mask {
   position: fixed;
