@@ -150,9 +150,9 @@
 	      	<div id="mem_info" style="float:left; width: 190px; height: 200px; margin: 0 auto; margin-right: 10px;"></div>
 	      	<div id="cpu_info" style="float:left; min-width: 600px; height: 200px; margin: 0 auto; margin-right: 10px;">	</div>
 	      	<div id="process_info" style="float:left; min-width: 400px; height: 200px; margin: 0 auto; margin-right: 10px;">	</div>
-	      	<div style="float:left; background-color: white; ">
+	      	<div style="float:left; background-color: white;">
 	      		<div style="float:center; font-size:18px; height: 40px; left: 50%; margin-top: 5px; padding-right: 10px; margin:auto; text-align:center;">发布消息</div>
-	      		<div id="topic_info" style="float:left; height: 160px; margin-left: 10px; margin-right: 10px; padding-right: 5px;"></div>	      		
+	      		<div id="topic_info" style="float:left; height: 160px; margin-left: 10px; margin-right: 10px; padding-right: 5px; overflow-y:auto"></div>	      		
 	      	</div>
 	      	      	
 	      </div>
@@ -1175,7 +1175,7 @@ function processInfo(){
 
   var data = [{
       name: '进程',
-      data: [10, 30, 20, 11, 20, 70],
+      data: [10, 30, 20, 11, 20, 70,50, 60, 30, 20,],
       color: 'teal',
   }];
 
@@ -1199,13 +1199,24 @@ function processInfo(){
 	        },
       },
       title: {
-          text: '节点任务'
+          text: '节点进程'
       },
       credits: {
        enabled:false, 
       },
       xAxis: {
-          categories: node_name
+          categories: node_name,
+          labels:{style: {
+            "color":"black",
+            "text-overflow": 'ellipsis',
+            "line-height": "0em",
+            "height": "2.5em",
+            "white-space":"nowrap",
+            "word-wrap": "break-word",
+            "hyphens":"auto"
+
+        		}
+      		},
       },
       yAxis: {
           title: {
