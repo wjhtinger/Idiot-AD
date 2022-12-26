@@ -147,11 +147,12 @@
 	      	<i id="msghide" class="fas fa-list-ul" onclick="showMsg('hide');" style="display:none;"></i>
 	      </div>
 	      <div id="board_info" class="div-info" style="display:none;">
-	      	<div id="mem_info" style="float:left; width: 200px; height: 200px; margin: 0 auto; "></div>
-	      	<div id="cpu_info" style="float:left; min-width: 600px; height: 200px; margin: 0 auto; ">	</div>
+	      	<div id="mem_info" style="float:left; width: 190px; height: 200px; margin: 0 auto; margin-right: 10px;"></div>
+	      	<div id="cpu_info" style="float:left; min-width: 600px; height: 200px; margin: 0 auto; margin-right: 10px;">	</div>
+	      	<div id="process_info" style="float:left; min-width: 400px; height: 200px; margin: 0 auto; margin-right: 10px;">	</div>
 	      	<div style="float:left; background-color: white; ">
 	      		<div style="float:center; font-size:18px; height: 40px; left: 50%; margin-top: 5px; padding-right: 10px; margin:auto; text-align:center;">发布消息</div>
-	      		<div id="topic_info" style="float:left; height: 160px; margin-left: 10px; margin-right: 10px; padding-right: 10px;"></div>	      		
+	      		<div id="topic_info" style="float:left; height: 160px; margin-left: 10px; margin-right: 10px; padding-right: 5px;"></div>	      		
 	      	</div>
 	      	      	
 	      </div>
@@ -882,6 +883,7 @@
 
 		memInfo();
 		cpuInfo();
+		processInfo();
 	}
 
 	function hideBoardInfo(){
@@ -1019,6 +1021,9 @@ function memInfo(){
         title: {
             text: '内存'
         },
+        credits: {
+       		enabled:false, 
+      	},
         yAxis: {
             title: {
                 text: '全部内存'
@@ -1078,6 +1083,9 @@ function cpuInfo(){
 	    title: {
 	        text: 'CPU'
 	    },
+	    credits: {
+       enabled:false, 
+      },
 	    xAxis: {
 	        type: 'datetime',
 	        tickPixelInterval: 150
@@ -1151,7 +1159,68 @@ function cpuInfo(){
 }
 
 
+function processInfo(){
+  var node_name = [];
 
+  var getData = function () {
+  	numnode    = editor.nodeId - 1;
+		for (let i = 1; i <= numnode; i++){
+    	infoNode   = editor.getNodeFromId(i);
+    	data = infoNode.data;
+    	node_name[i - 1] = data.node_name;
+    }
+  }
+
+  getData();
+
+  var data = [{
+      name: '进程',
+      data: [10, 30, 20, 11, 20, 70],
+      color: 'teal',
+  }];
+
+  $('#process_info').highcharts({
+      chart: {
+          type: 'bar',
+          events: {
+	            load: function () {
+	            	var series0 = this.series[0];
+	            	setInterval(function () {
+		            	for(i = 0; i < node_name.length; i++){
+		            		data[0].data[i] += (Math.random()*4 - 2);
+		            		if(data[0].data[i] < 0){
+		            			data[0].data[i] = 0;
+		            		}
+
+		            	}
+		            	series0.update(data[0]);		            	
+              }, 1000);
+	          }
+	        },
+      },
+      title: {
+          text: '节点任务'
+      },
+      credits: {
+       enabled:false, 
+      },
+      xAxis: {
+          categories: node_name
+      },
+      yAxis: {
+          title: {
+              text: ''
+          }
+      },
+	    legend: {
+        enabled: false,
+	    },
+	    exporting: {
+	        enabled: false
+	    },
+      series: data
+  });
+}
 
 	
 	
