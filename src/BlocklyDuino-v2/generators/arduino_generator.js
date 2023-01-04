@@ -131,6 +131,13 @@ Blockly.Arduino.init = function (workspace) {
         }
         Blockly.Arduino.definitions_['variables'] += allTypes[i] + ' ' + defvars.join(', ') + ';\n';
     }
+
+    Blockly.Arduino.includes_['api_func_types'] = '#include "api_func_types.h"';
+    Blockly.Arduino.includes_['dataflow_interface'] = '#include "dataflow_interface.h"';
+    Blockly.Arduino.includes_['data_flow_framework_shared_library_loader'] = '#include "data_flow_framework_shared_library_loader.h"';
+    Blockly.Arduino.includes_['interface'] = '#include "interface.h"';
+
+    Blockly.Arduino.variables_['ApiFuncList'] = 'const ApiFuncList *Api;';
 };
 
 /**
@@ -193,8 +200,11 @@ Blockly.Arduino.finish = function (code) {
     Blockly.Arduino.variableDB_.reset();
     var allDefs = includes.join('\n') + definitions.join('\n') + variables.join('\n') + functions.join('\n');
     var setup = 'void setup() {' + setups.join('\n  ') + '\n}\n\n';
-    var loop = 'void loop() {\n  ' + code.replace(/\n/g, '\n  ') + '\n}';
-    return allDefs + setup + loop;
+   
+    var init = 'int init(const char *config_path, const ApiFuncList *api) {\n  ' + setups.join('\n  ') + '\n}\n\n';
+    var unload = 'int unload(void) {\n  ' + '' + '\n}\n\n';
+    var loop = 'int process(const aicc_sync_topic_in_t *msg_in, int in_num, aicc_sync_topic_out_t *msg_out, int *out_num, void *arg) {\n\n  ' + code.replace(/\n/g, '\n  ') + '\n}';
+    return allDefs + init + unload + loop;
 };
 
 /**

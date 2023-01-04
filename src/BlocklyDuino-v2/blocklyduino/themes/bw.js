@@ -97,6 +97,11 @@ Blockly.Themes.blackWhite.defaultBlockStyles = {
         "colourPrimary": "#000000",
         "colourSecondary": "#000000",
         "colourTertiary": "#000000"
+    },
+    "iad_control_blocks": {
+        "colourPrimary": "#6699FF",
+        "colourSecondary": "#6699FF",
+        "colourTertiary": "#6699FF"
     }
 };
 

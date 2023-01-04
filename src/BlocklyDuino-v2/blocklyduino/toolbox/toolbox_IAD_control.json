@@ -11,12 +11,12 @@ var toolbox_IAD_control = {
 		  "icon": "customIcon fas fa-draw-polygon"
 		},
 		"contents": [{
-		 "kind": "block",
-		 "type": "lat_control"
+		"kind": "block",
+		"type": "algo_pid"
 		 }, {
 		"kind": "block",
-		"type": "lon_control"
-		 }
+		"type": "algo_lqr"
+		 },
 	  ]		
     }]
 };

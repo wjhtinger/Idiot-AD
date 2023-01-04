@@ -69,7 +69,13 @@ Blockly.Themes.Modern.defaultBlockStyles = {
     "colourSecondary": "#dbbdd6",
     "colourTertiary": "#84497a",
     "hat": "cap"
-  }
+  },
+  "iad_control_blocks": {
+    "colourPrimary": "#745ba5",
+    "colourSecondary": "#c7bddb",
+    "colourTertiary": "#5d4984"
+  },
+
 };
 
 Blockly.Themes.Modern.categoryStyles = {

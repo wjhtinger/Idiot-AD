@@ -68,7 +68,12 @@ Blockly.Themes.Zelos.defaultBlockStyles = {
     "colourSecondary": "#4280D7",
     "colourTertiary": "#3373CC",
     "hat": "cap"
-  }
+  },
+  "iad_control_blocks": {
+    "colourPrimary": "#745ba5",
+    "colourSecondary": "#c7bddb",
+    "colourTertiary": "#5d4984"
+  },
 };
 
 Blockly.Themes.Zelos.categoryStyles = {

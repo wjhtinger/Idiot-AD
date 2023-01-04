@@ -128,3 +128,5 @@ Blockly.Msg.RELAY_MOSFET_TEXT = "MOSFET transistor";
 Blockly.Msg.RELAY_MOSFET_INPUT = "on pin#";
 Blockly.Msg.RELAY_MOSFET_TOOLTIP = "the MOSFET transistor is a remote switch, a switch in a power circuit that is switched by a digital signal";
 Blockly.Msg.RELAY_MOSFET_HELPURL = "http://sin.lyceeleyguescouffignal.fr/irf520-mosfet-driver-module";
+
+Blockly.Msg.ALGO_PID_TITLE= "PID";
